@@ -8,7 +8,10 @@ const movementSchema = new Schema({
 
     votes: [
         {
-            id: String
+            id: {
+                type: mongoose.Types.ObjectId,
+                ref: "users"
+            }
         }
     ],
 
@@ -16,7 +19,10 @@ const movementSchema = new Schema({
     
     donations: [
         {
-            id: String
+            id: {
+                type: mongoose.Types.ObjectId,
+                ref: "donations"
+            }
         }
     ]
 });

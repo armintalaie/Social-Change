@@ -7,7 +7,7 @@ const PhotoSchema = new Schema({
 
     user_id: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'user'
+        ref: 'users'
     },
 
     public: {
@@ -17,6 +17,6 @@ const PhotoSchema = new Schema({
 })
 
 
-const Photo = mongoose.model('product', PhotoSchema)
+const Photo = mongoose.model('photo', PhotoSchema)
 
-module.exports = Product
+module.exports = Photo

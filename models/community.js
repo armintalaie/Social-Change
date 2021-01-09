@@ -8,7 +8,10 @@ const communitySchema = new Schema({
 
     movements: [
         {
-            id: String
+            id: {
+                type: mongoose.Types.ObjectId,
+                ref: "users"
+            }
         }
     ],
 

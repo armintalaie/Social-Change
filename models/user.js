@@ -7,7 +7,10 @@ const userSchema = new Schema({
     password: String,
     trusts: String,
     trusted_by: [{
-        id: String
+        id: {
+            type: mongoose.Types.ObjectId,
+            ref: "users"
+        }
     }],
 
     photo: String,
@@ -15,6 +18,6 @@ const userSchema = new Schema({
     points: Number,
 })
 
-const User = mongoose.model('product', userSchema)
+const User = mongoose.model('user', userSchema)
 
 module.exports = User
