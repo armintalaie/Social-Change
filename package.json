@@ -1,0 +1,22 @@
+{
+    "name": "Social-Change",
+    "version": "1.0.0",
+    "description": "",
+    "main": "index.js",
+    "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 1",
+        "start": "node index.js",
+        "heroku-postbuild": "cd client && npm install && npm run build"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/armintalaie/Social-Change.git"
+    },
+    "keywords": [],
+    "author": "",
+    "license": "ISC",
+    "bugs": {
+        "url": "https://github.com/armintalaie/Social-Change/issues"
+    },
+    "homepage": "https://github.com/armintalaie/Social-Change#readme"
+}
