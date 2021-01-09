@@ -1,14 +1,13 @@
-var mongoose = require("mongoose");
-var Schema = mongoose.Schema;
+const mongoose = require("mongoose");
+const Schema = mongoose.Schema;
 
-var userSchema = new Schema({
-    id: String,
+const userSchema = new Schema({
+    email: String,
+    password: String,
     trusts: String,
-    trusted_by: [
-        {
-            id: String
-        }
-    ],
+    trusted_by: [{
+        id: String
+    }],
 
     photo: String,
     bio: String,
