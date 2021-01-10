@@ -1,3 +1,4 @@
+const fs = require("fs");
 const MongoClient = require('mongodb').MongoClient;
 const mongoose = require("mongoose");
 const User = require("./models/user.js");
@@ -14,9 +15,23 @@ const mvmnt_donation_pts = 4
 const cmnty_donation_pts = 10
 
 async function getUser(client, id) {
+
     let db = client.db(dbName);
-    let col = db.collection("users");
-    return await col.findOne({ "_id": id });
+    let user_col = db.collection("users");
+    let don_col = db.collection("donations");
+
+    let user = await user_col.findOne({ "_id": id });
+    if (user) {
+        return user;
+    }
+
+    let don = await don_col.findOne({ "_id": id });
+    if (don) {
+        let user_id = don.user;
+        return await user_col.findOne({ _id: user_id });
+    }
+
+    return null;
 }
 
 async function getMovement(client, id) {
@@ -27,8 +42,28 @@ async function getMovement(client, id) {
 
 async function getCommunity(client, id) {
     let db = client.db(dbName);
-    let col = db.collection("communities");
-    return await col.findOne({ "_id": id });
+    let move_col = db.collection("movements");
+    let comm_col = db.collection("communities");
+    let don_col = db.collection("donations");
+
+    let comm = await comm_col.findOne({ "_id": id });
+    if (comm) {
+        return comm;
+    }
+
+    let move = await move_col.findOne({ "_id": id });
+    if (move) {
+        let community_id = user.community;
+        return await comm_col.findOne({ _id: community_id });
+    }
+
+    let don = await don_col.findOne({ "_id": id });
+    if (don) {
+        let community_id = don.community;
+        return await comm_col.findOne({ _id: community_id });
+    }
+
+    return null;
 }
 
 async function getDonation(client, id) {
@@ -58,45 +93,6 @@ async function getDonations(client, id) {
 
     return null;
 }
-
-//Get community from donation or movement id
-async function getCommunity(client, id) {
-    let db = client.db(dbName);
-    let move_col = db.collection("movements");
-    let comm_col = db.collection("communities");
-    let don_col = db.collection("donations");
-
-    let move = await move_col.findOne({ "_id": id });
-    if (move) {
-        let community_id = user.community;
-        return await comm_col.findOne({ _id: community_id });
-    }
-
-    let don = await don_col.findOne({ "_id": id });
-    if (don) {
-        let community_id = don.community;
-        return await comm_col.findOne({ _id: community_id });
-    }
-
-    return null;
-}
-
-//Get community from donation or movement id
-async function getUser(client, id) {
-    let db = client.db(dbName);
-    let user_col = db.collection("users");
-    let don_col = db.collection("donations");
-
-    let don = await don_col.findOne({ "_id": id });
-    if (don) {
-        let user_id = don.user;
-        return await user_col.findOne({ _id: user_id });
-    }
-
-    return null;
-}
-
-
 
 async function vote(client, movement_id, user_id) {
     let db = client.db(dbName)
@@ -216,28 +212,49 @@ async function calculateVotes(client, movement_id) {
     return num_votes;
 }
 
-async function main() {
-    const uri = "mongodb+srv://username:password@cluster0.rbltt.mongodb.net/nwHacks?retryWrites=true&w=majority"; //authentication here
+async function dbWrapper(funk) {
+    const uri = fs.readFileSync('uri.txt', 'utf8');
     const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true });
 
     try {
         await client.connect();
-
         const db = client.db(dbName);
-        const users_col = db.collection("users");
-        const movements_col = db.collection("movements");
 
-        let mvmts = await searchMovements(client, "test description")
-        for (m of mvmts) {
-            console.log(m.name);
-            console.log(m.description);
-        }
-
-
+        return await funk(client);
     } catch (e) {
         console.error(e);
     } finally {
         await client.close();
     }
 }
-main().catch(console.error);
+//main().catch(console.error);
+
+module.exports.getUser = async function (id) {
+    const uri = fs.readFileSync('uri.txt', 'utf8');
+    const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true });
+    try {
+        await client.connect();
+        const db = client.db(dbName);
+        return await getUser(client,id);
+    } catch (e) {
+        console.error(e);
+    } finally {
+        await client.close();
+    }
+};
+
+module.exports.getMovement = async function (id) {
+    const uri = fs.readFileSync('uri.txt', 'utf8');
+    const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true });
+    try {
+        await client.connect();
+        const db = client.db(dbName);
+        return await getMovement(client,id);
+    } catch (e) {
+        console.error(e);
+    } finally {
+        await client.close();
+    }
+};
+
+//dbWrapper(getUser).catch(console.error);
