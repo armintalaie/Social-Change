@@ -263,7 +263,7 @@ async function passMovements(client, community_id) {
     let num_votes = 0;
 
     for (move of move_col) {
-        num_votes += calculateVotes(client, move._id);
+        num_votes += await calculateVotes(client, move._id);
     }
 
     for (move of move_col) {

@@ -33,6 +33,9 @@ router.get('/community/restart/:id', async(req, res) => {
 router.get('/community/:id', async(req, res) => {
     let comm = await db.getCommunity(mongoose.Types.ObjectId(req.params.id));
     res.locals.movements = await db.getMovements(comm._id);
+    for (move of res.locals.movements){
+        await db.calculateVotes(move._id);
+    }
     res.locals.community = comm;
     res.locals.donations = await db.getDonations(comm._id);
     res.locals.user = req.user;
