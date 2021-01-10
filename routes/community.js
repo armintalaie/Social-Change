@@ -1,5 +1,6 @@
 const express = require('express')
 const router = express.Router()
+const mongoose = require('mongoose')
 const User = require('../models/user')
 const Community = require('../models/community')
 const Photo = require('../models/photo')

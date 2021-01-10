@@ -1,0 +1,11 @@
+<div class="card" style="width: 18rem;">
+    <img class="card-img-top" src="..." alt="Card image cap">
+    <div class="card-body">
+        <h5 class="card-title"><%= movement.name %></h5>
+        <p class="card-text"><%= movement.description %></p>
+        <% if (movement.created_by) { %>
+        <a href="/profile/<%= movement.created_by.toString() %>" class="btn btn-primary">See Creator's Profile %></a>
+        <% } %>
+        <p class="card-text"><%= movement.count %></p>
+    </div>
+</div>

@@ -34,6 +34,22 @@
 
             </div>
         </section>
+        
+        <section>
+            <% if (movements) { %>
+                <h4> Movements </h4>
+                <div class="container mb-3" style="max-width: 25rem;">
+                    <% movements.forEach(movement=> { %>
+                        <%- include('movementPane.ejs', {movement : movement}) %>
+                        <% }) %>
+                </div>
+                <% } else { %>
+                    <div class="container">
+                        <h1> No Movements</h1>
+                    </div>
+                    <% } %>
+                        </div>
+        </section>
 
     </body>
 
