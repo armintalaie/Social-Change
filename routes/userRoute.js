@@ -96,8 +96,6 @@ router.get('/signin', (req, res) => {
 
 })
 
-
-
 // sign out user and remove session
 router.get('/signout', (req, res) => {
     router.get('/user/signout', (req, res) => {
@@ -117,6 +115,7 @@ router.get('/profile', async(req, res) => {
 
     //console.log(res.locals.movements)
     res.locals.user = req.user
+    res.locals.trusted_by = await db.getTrustedBy(req.user._id);
 
     res.render('profile')
 
@@ -129,6 +128,7 @@ router.get('/profile/:id', async(req, res) => {
 
     //console.log(res.locals.movements)
     res.locals.user = user
+    res.locals.trusted_by = await db.getTrustedBy(user._id);
 
     res.render('profile')
 
