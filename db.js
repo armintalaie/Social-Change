@@ -1,19 +1,31 @@
 const mongoose = require('mongoose')
+const path = require("path");
+const fs = require('fs')
+const MongoClient = require('mongodb').MongoClient;
 var db
 
-mongoose.connect(dbURI, { useNewUrlParser: true, useUnifiedTopology: true })
-    .then((result) => console.log("connected to db"))
-    .catch((err) => console.log(err))
+try {
+    db = fs.readFileSync('uri.txt', 'utf8');
+    console.log(db);
 
+    mongoose.connect(db, {
+        useNewUrlParser: true,
+        useCreateIndex: true,
+        useUnifiedTopology: true
+    });
 
-// fetch the database
-MongoClient.connect(dbURI, { useNewUrlParser: true, useUnifiedTopology: true }, function(err, database) {
-    if (err) {
-        console.log('failed to connect ' + err)
-    } else {
-        db = database.db('Shelf')
-    }
-})
+    MongoClient.connect(db, { useNewUrlParser: true, useUnifiedTopology: true }, function(err, datab) {
+        if (err) {
+
+            console.log('failed to connect ' + err)
+        } else {
+            db = datab.db('nwhacks')
+        }
+    })
+} catch (e) {
+    console.log('Error:', e.stack);
+}
+
 
 
 module.exports = db
