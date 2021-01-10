@@ -14,25 +14,55 @@
 
     <%- include('nav.ejs') %>
 
-        <div class="row justify-content-center bg-info p-5">
-            <div class="col-4">
-                <img class="rounded" src="https://ichef.bbci.co.uk/news/976/cpsprodpb/64BC/production/_112888752_2brightonblm.jpg" width=100%>
-            </div>
-            <div class="col-4 p-3">
-                <h3>Welcome to Momentum</h3>
-                <h2>Anyone has the power to create momentum</h2>
-                <h5>Join communities of likeminded activists, support a movement, lead a movement, see how every dollar is changing the world</h5>
-            </div>
-        </div>
-        <div class="row justify-content-center bg-light p-5">
-            <div class="col-4">
-                <h6 class="text-center">Movement of the week</h6>
-                <h4 class="text-center">Enhacing sports ground accessibility in sports events in West Vancouver</h4>
-            </div>
-            <div class="col-4">
-                <img class="rounded" src="https://www.yvr.ca/-/media/yvr/blog/2019/20180517-yvr-hoopfest-hires0175.jpg" width=100%>
-            </div>
-        </div>
+
+        <%= test %>
+
+            <% if (movements) { %>
+                <h1> movement is loaded</h1>
+                <% } else { %>
+                    <h1> movement is not loaded</h1>
+                    <% }  %>
+                        <% movements.forEach(mv => { %>
+                            <div>
+                                <div class="card ">
+
+
+
+                                    <h3 class="card-title">
+                                        <%= mv.name %>
+                                    </h3>
+
+
+
+
+                                </div>
+                            </div>
+                            <% }) %>
+
+
+
+
+
+
+                                <div class="row justify-content-center bg-info p-5">
+                                    <div class="col-4">
+                                        <img class="rounded" src="https://ichef.bbci.co.uk/news/976/cpsprodpb/64BC/production/_112888752_2brightonblm.jpg" width=100%>
+                                    </div>
+                                    <div class="col-4 p-3">
+                                        <h3>Welcome to Momentum</h3>
+                                        <h2>Anyone has the power to create momentum</h2>
+                                        <h5>Join communities of likeminded activists, support a movement, lead a movement, see how every dollar is changing the world</h5>
+                                    </div>
+                                </div>
+                                <div class="row justify-content-center bg-light p-5">
+                                    <div class="col-4">
+                                        <h6 class="text-center">Movement of the week</h6>
+                                        <h4 class="text-center">Enhacing sports ground accessibility in sports events in West Vancouver</h4>
+                                    </div>
+                                    <div class="col-4">
+                                        <img class="rounded" src="https://www.yvr.ca/-/media/yvr/blog/2019/20180517-yvr-hoopfest-hires0175.jpg" width=100%>
+                                    </div>
+                                </div>
 </body>
 
 </html>

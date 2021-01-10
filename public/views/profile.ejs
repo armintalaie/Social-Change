@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <%- include('header.ejs') %>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Profile</title>
+</head>
+
+<body>
+
+    <%- include('nav.ejs') %>
+
+        <%= user.name %>
+            <%= user.points %>
+                <%= user.emails %>
+
+
+                    <% movements.forEach(mv => { %>
+                        <div>
+                            <div class="card ">
+
+
+
+                                <h3 class="card-title">
+                                    <%= mv.name %>
+                                </h3>
+
+
+                            </div>
+                        </div>
+
+</body>
+
+</html>
