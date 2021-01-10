@@ -18,7 +18,7 @@ import "../styles/NavBar.scss";
 
 function NavBar({ props }) {
   return (
-    <div className="navbar">
+    <div className="navbar--wrapper">
       <Navbar className="navbar__options" color="light" light>
         <NavbarBrand href="/">MOMENTUM</NavbarBrand>
         <Nav className="navbar__items" navbar>
