@@ -1,14 +1,13 @@
-import "./App.css";
+// import "";
 import React from "react";
 import NavBar from "./components/NavBar";
-// import 'styles/_colors.scss'
+import CommunityPage from "./components/CommunityPage";
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <NavBar></NavBar>
-      </header>
+    <div>
+      <NavBar></NavBar>
+      <CommunityPage></CommunityPage>
     </div>
   );
 }

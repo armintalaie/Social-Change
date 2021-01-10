@@ -6,6 +6,9 @@
   &__items {
     display: flex;
     flex-direction: row;
+    &.navbar-nav {
+      flex-direction: row;
+    }
   }
 }
 .nav-item {

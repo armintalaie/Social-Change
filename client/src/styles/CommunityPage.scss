@@ -1,0 +1,10 @@
+.community {
+  &__header {
+    display: flex;
+    flex-direction: row;
+    &__title {
+      display: flex;
+      justify-content: space-between;
+    }
+  }
+}
