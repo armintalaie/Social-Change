@@ -16,38 +16,22 @@
 
             <div class="container p-6">
                 <h1 class="text-center p-3">Community </h1>
-                <form action="/community/Create" method="post" class="bd-search hidden-sm-down small" enctype="multipart/form-data" method="post">
-                    <input type="text" class="form-control bg-graylight border-0 font-weight-bold" id="name" name="name" placeholder="Name" autocomplete="off">
-                    <br>
-                    <br>
-                    <input type="text" class="form-control bg-graylight border-0 font-weight-bold" id="description" name="description" placeholder="description" autocomplete="off">
-                    <br>
-                    <input type="number" class="form-control bg-graylight border-0 font-weight-bold" id="goal" name="goal" placeholder="goal" autocomplete="off">
-                    <br>
-                    <br>
-                    <input type="file" id="image" name="image" value="">
-                    <br>
-                    <br>
-                    <button class="btn-indigo btn" type="submit"> Create </button>
-                    <!-- gist
-                    <% movements.forEach(mv => { %>
-                        <div class="d-flex row">
-                        <div class="card">
-                             <h3 class="card-title">
-                                    <%= mv.name %>
-                                </h3>
-                                <p>
-                                    <%= mv.description %>
-                                </p>
-                        </div>
-                    </div>
-                        <%})%>
-                    -->
 
-                </form>
+                <div style="width: 50%; align-self: center;" class="container mb-3">
+                    <form action="/donate/<%=community._id.toString()%>" method="post" class="bd-search hidden-sm-down small" enctype="multipart/form-data">
+                        <input type="number" class="form-control bg-graylight border-0 font-weight-bold" id="amount" name="amount" placeholder="amount" autocomplete="off">
+
+                        <br>
+
+                        <div class="d-flex justify-content-center">
+                            <button class="btn-secondary btn mx-auto btn-lg" type="submit"> Donate </button>
+                        </div>
+                    </form>
+                </div>
 
             </div>
         </section>
+
 
         <section>
             <% if (movements) { %>

@@ -192,7 +192,7 @@ async function voteFunk(client, movement_id, user_id) {
 
     let user = await user_col.findOne({ "_id": user_id })
 
-    let user_movements = await getMovements(client,user._id);
+    let user_movements = await getMovements(client, user._id);
     let movement_ids = []
     for (user_movement of user_movements) {
         movement_ids.push(user_movement._id);
@@ -206,7 +206,7 @@ async function voteFunk(client, movement_id, user_id) {
         addPoint(user, movement_vote_pts);
         user.votes.push(movement._id);
         movement.votes.push(user._id);
-        movement.count = await calculateVotes(client,movement._id);
+        movement.count = await calculateVotes(client, movement._id);
 
         await user_col.updateOne({ _id: user._id }, {
             $set: { "votes": user.votes },
@@ -216,7 +216,7 @@ async function voteFunk(client, movement_id, user_id) {
             $set: { "votes": movement.votes, "count": movement.count },
         });
 
-        if (comm){
+        if (comm) {
             comm.votes += 1;
             comm.lifetime_votes += 1;
             if (comm.votes >= cmnty_votes_threshold) {
@@ -343,7 +343,7 @@ async function createDonation(client, user_id, community_id, donation) {
     var comm = await comm_col.findOne({ "_id": community_id })
 
     if (user && comm) {
-        community.balance += donation.amount;
+        comm.balance += donation.amount;
         comm_col.updateOne({ _id: comm._id }, {
             $set: { "balance": comm.balance },
         });

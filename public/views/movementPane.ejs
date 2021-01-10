@@ -1,9 +1,9 @@
 <div class="card" style="width: 18rem;">
-    <img class="card-img-top" src="..." alt="Card image cap">
+    <img src="data:image/<%=movement.image.contentType%>;base64,
+    <%=movement.image.data.toString('base64')%>">
     <div class="card-body">
         <% if (movement.image) { %>
-            <img src="data:image/<%=movement.image.contentType%>;base64,
-                                                                <%=movement.image.data.toString('base64')%>">
+
             <% } %>
                 <h5 class="card-title">
                     <%= movement.name %>
