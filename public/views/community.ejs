@@ -58,7 +58,7 @@
                 <h4> Movements </h4>
                 <div class="container mb-3" style="max-width: 25rem;">
                     <% movements.forEach(movement=> { %>
-                        <%- include('movementPane.ejs', {movement : movement}) %>
+                        <%- include('movementPane.ejs', {movement : movement, user : user}) %>
                         <% }) %>
                 </div>
                 <% } else { %>

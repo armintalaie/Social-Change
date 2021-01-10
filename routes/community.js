@@ -35,6 +35,7 @@ router.get('/community/:id', async (req, res) => {
     res.locals.movements = await db.getMovements(comm._id);
     res.locals.community = comm;
     res.locals.donations = await db.getDonations(comm._id);
+    res.locals.user = req.user;
     res.render('community');
 })
 
