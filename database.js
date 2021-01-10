@@ -309,6 +309,13 @@ async function createMovement(client, user_id, movement) {
     return null;
 }
 
+async function createPhoto(client, photo) {
+    let db = client.db(dbName)
+    var photo_col = db.collection('photos')
+    photo_col.insertOne(photo)
+
+}
+
 async function createDonation(client, user_id, community_id, donation) {
     let db = client.db(dbName)
     var user_col = db.collection('users')
@@ -362,7 +369,6 @@ async function topAmbassadors(client) {
     var top = new Array(num_top_amsdrs)
     top = await user_col.find().sort({ points: -1 })
         .limit(num_top_amsdrs).toArray()
-    console.log(top)
 
     return top
 
@@ -677,6 +683,21 @@ module.exports.createMovement = async function(user_id, movement) {
         await client.connect();
         const db = client.db(dbName);
         return await createMovement(client, user_id, movement)
+    } catch (e) {
+        console.error(e);
+    } finally {
+        await client.close();
+    }
+};
+
+
+module.exports.createPhoto = async function(photo) {
+    const uri = fs.readFileSync('uri.txt', 'utf8');
+    const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true });
+    try {
+        await client.connect();
+        const db = client.db(dbName);
+        return await createPhoto(client, photot)
     } catch (e) {
         console.error(e);
     } finally {
