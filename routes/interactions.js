@@ -33,16 +33,19 @@ MongoClient.connect(uri, { useNewUrlParser: true, useUnifiedTopology: true }, fu
 
 
 
-function vote(movement, user, is_community) {
+async function vote(client, movement_id, user_id) {
+    let db = client.db(dbName)
+    var user_col = db.col('users')
+    var move_col = db.col('movements')
+
+    var user = await user_col.findOne({ "_id": user_id })
+    var movement = await move_col.findOne({ "_id": movement_id })
 
     addPoint(user, movement_vote_pts)
     user.movements.push(movement._id)
-    movements.users(user._id)
-
-    // make a call to other users
+    movements.votes.push(user._id)
 
 }
-
 
 function addPoint(user, pts) {
     user.points += pts
@@ -52,8 +55,10 @@ function addPoint(user, pts) {
 // top people
 function topAmbassadors() {
 
+    let db = client.db(dbName)
+    var user_col = db.col('users')
     var top = new Array(num_top_amsdrs)
-    Movement.find().sort({ votes: -1 })
+    user_col.find().sort({ votes: -1 })
         .limit(num_top_amsdrs),
         function(err, results) {
             top = results
@@ -67,8 +72,10 @@ function topAmbassadors() {
 // top people
 function topMovements() {
 
+    let db = client.db(dbName)
+    var movement_col = db.col('movements')
     var top = new Array(num_top_mvments)
-    Movement.find().sort({ votes: -1 })
+    movement_col.find().sort({ votes: -1 })
         .limit(num_top_mvments),
         function(err, results) {
             top = results
