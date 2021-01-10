@@ -6,6 +6,8 @@ const Movement = require("./models/movement.js");
 const Donation = require("./models/donation.js");
 const Community = require("./models/community.js");
 const Photo = require("./models/photo.js");
+var multer = require('multer')
+var path = require('path')
 const dbName = "nwHacks";
 
 
@@ -15,6 +17,18 @@ const num_top_mvments = 5
 const mvmnt_donation_pts = 4
 const cmnty_donation_pts = 10
 const cmnty_votes_threshold = 100
+
+
+
+storage = multer.diskStorage({
+    destination: (req, file, cb) => {
+        cb(null, __dirname + '/../uploads/photos')
+    },
+    filename: (req, file, cb) => {
+        cb(null, file.fieldname + '-' + Date.now() + path.extname(file.originalname))
+    }
+})
+var upload = multer({ storage: storage })
 
 async function getUser(client, id) {
     let db = client.db(dbName);
@@ -49,17 +63,17 @@ async function getPhoto(client, id) {
 
     let user = await user_col.findOne({ "_id": id });
     if (user) {
-        return await phot_col.findOne({ "_id" : user.photo });
+        return await phot_col.findOne({ "_id": user.photo });
     }
 
     let comm = await comm_col.findOne({ "_id": id });
     if (comm) {
-        return await phot_col.findOne({ "_id" : comm.photo });
+        return await phot_col.findOne({ "_id": comm.photo });
     }
 
     let move = await move_col.findOne({ "_id": id });
     if (move) {
-        return await phot_col.findOne({ "_id" : move.photo });
+        return await phot_col.findOne({ "_id": move.photo });
     }
 
     return null;
@@ -176,10 +190,10 @@ async function vote(client, movement_id, user_id) {
     var comm_col = db.collection("communities");
 
     var user = await user_col.findOne({ "_id": user_id })
-    
+
     let user_movements = getMovements(user._id);
 
-    var movement = await move_col.findOne({ "_id": movement_id, "_id": { "$nin": user_movements }  });
+    var movement = await move_col.findOne({ "_id": movement_id, "_id": { "$nin": user_movements } });
 
     var comm = await comm_col.findOne({ "_id": movement.community });
     //user can't vote twice
@@ -188,37 +202,28 @@ async function vote(client, movement_id, user_id) {
         user.votes.push(movement._id);
         movements.votes.push(user._id);
         movement.count = await calculateVotes(movement._id);
-        
-        user_col.updateOne(
-            { _id: user._id },
-            {
-              $set: { "votes": user.votes},
-            }
-        );
 
-        move_col.updateOne(
-            { _id: movement._id },
-            {
-              $set: { "votes": movement.votes, "count": movement.count},
-            }
-        );
+        user_col.updateOne({ _id: user._id }, {
+            $set: { "votes": user.votes },
+        });
+
+        move_col.updateOne({ _id: movement._id }, {
+            $set: { "votes": movement.votes, "count": movement.count },
+        });
 
         comm.votes += 1;
-        comm.lifetime_votes +=1;
-        if (comm.votes >= cmnty_votes_threshold){
-            passMovements(client,comm);
+        comm.lifetime_votes += 1;
+        if (comm.votes >= cmnty_votes_threshold) {
+            passMovements(client, comm);
         }
 
-        comm_col.updateOne(
-            { _id: comm._id },
-            {
-              $set: { "votes": comm.votes, "lifetime_votes": comm.lifetime_votes},
-            }
-        );
+        comm_col.updateOne({ _id: comm._id }, {
+            $set: { "votes": comm.votes, "lifetime_votes": comm.lifetime_votes },
+        });
     }
 }
 
-async function passMovements(client,community_id) {
+async function passMovements(client, community_id) {
     let db = client.db(dbName);
     let user_col = db.collection("users");
     let move_col = db.collection("movements");
@@ -226,7 +231,7 @@ async function passMovements(client,community_id) {
 
     let comm = await comm_col.findOne({ "_id": community_id });
     let top = new Array(num_top_mvments)
-    move_col.find({ _id: { $in: comm.movements }, "passed" : false}).sort({ votes: -1 })
+    move_col.find({ _id: { $in: comm.movements }, "passed": false }).sort({ votes: -1 })
         .limit(num_top_mvments),
         function(err, results) {
             top = results
@@ -234,46 +239,34 @@ async function passMovements(client,community_id) {
 
     let num_votes = 0;
 
-    for (move of move_col){
-        num_votes += calculateVotes(client,move._id);
+    for (move of move_col) {
+        num_votes += calculateVotes(client, move._id);
     }
-    
-    for (move of move_col){
-        let slice = floor(comm.balance/top.length * move.count/num_votes * comm.balance);
+
+    for (move of move_col) {
+        let slice = floor(comm.balance / top.length * move.count / num_votes * comm.balance);
         //can't get more than their slice of the pie
-        if (move.goal < slice){
+        if (move.goal < slice) {
             slice = move.goal
         }
         comm.balance -= slice;
-        comm_col.updateOne(
-            { _id: comm._id },
-            {
-              $set: { "balance": comm.balance},
-            }
-        );
+        comm_col.updateOne({ _id: comm._id }, {
+            $set: { "balance": comm.balance },
+        });
 
-        let user = await user_col.findOne({"_id": move.created_by});
+        let user = await user_col.findOne({ "_id": move.created_by });
         user.balance += slice;
-        user_col.updateOne(
-            { _id: user._id },
-            {
-              $set: { "balance": user.balance},
-            }
-        );
-        move_col.updateOne(
-            { _id: move._id },
-            {
-              $set: { "passed": true},
-            }
-        );
+        user_col.updateOne({ _id: user._id }, {
+            $set: { "balance": user.balance },
+        });
+        move_col.updateOne({ _id: move._id }, {
+            $set: { "passed": true },
+        });
     }
 
-    comm_col.updateOne(
-        { _id: comm._id },
-        {
-          $set: { "votes": 0},
-        }
-    );
+    comm_col.updateOne({ _id: comm._id }, {
+        $set: { "votes": 0 },
+    });
 }
 
 async function trust(client, truster_id, trustee_id) {
@@ -281,35 +274,29 @@ async function trust(client, truster_id, trustee_id) {
     var user_col = db.collection('users')
     var truster = await user_col.findOne({ "_id": truster_id })
     var trustee = await user_col.findOne({ "_id": trustee_id })
-    
+
     if (trustee && truster) {
         truster.trusts = trustee._id;
         trustee.trusted_by.push(truster._id);
 
-        user_col.updateOne(
-            { _id: truster._id },
-            {
-              $set: { "trusts": truster.trusts},
-            }
-        );
+        user_col.updateOne({ _id: truster._id }, {
+            $set: { "trusts": truster.trusts },
+        });
 
-        user_col.updateOne(
-            { _id: trustee._id },
-            {
-              $set: { "trusted_by": trustee.trusted_by},
-            }
-        );
+        user_col.updateOne({ _id: trustee._id }, {
+            $set: { "trusted_by": trustee.trusted_by },
+        });
     }
 }
 
-async function createMovement(client, user_id, movement){
+async function createMovement(client, user_id, movement) {
     let db = client.db(dbName)
     var user_col = db.collection('users')
     var move_col = db.collection('movements')
 
     var user = await user_col.findOne({ "_id": user_id })
 
-    if (user){
+    if (user) {
         movement.created_by = user._id;
         movement.votes.push(user._id);
         movement.count = 1;
@@ -318,7 +305,7 @@ async function createMovement(client, user_id, movement){
     return null;
 }
 
-async function createDonation(client, user_id, community_id, donation){
+async function createDonation(client, user_id, community_id, donation) {
     let db = client.db(dbName)
     var user_col = db.collection('users')
     var comm_col = db.collection('communities')
@@ -327,22 +314,16 @@ async function createDonation(client, user_id, community_id, donation){
     var user = await user_col.findOne({ "_id": user_id })
     var comm = await comm_col.findOne({ "_id": community_id })
 
-    if (user && comm){
+    if (user && comm) {
         community.balance += donation.amount;
-        comm_col.updateOne(
-            { _id: comm._id },
-            {
-              $set: { "balance": comm.balance},
-            }
-        );
+        comm_col.updateOne({ _id: comm._id }, {
+            $set: { "balance": comm.balance },
+        });
         user.balance -= donation.amount;
         user.points += cmnty_donation_pts;
-        user_col.updateOne(
-            { _id: user._id },
-            {
-              $set: { "balance": user.balance, "points": user.points},
-            }
-        );
+        user_col.updateOne({ _id: user._id }, {
+            $set: { "balance": user.balance, "points": user.points },
+        });
         donation.user = user._id;
         donation.community = comm._id;
         return don_col.insertOne(donation);
@@ -350,13 +331,13 @@ async function createDonation(client, user_id, community_id, donation){
     return null;
 }
 
-async function createUser(client, user){
+async function createUser(client, user) {
     let db = client.db(dbName)
     var user_col = db.collection('users')
     return user_col.insertOne(user);
 }
 
-async function createCommunity(client, community){
+async function createCommunity(client, community) {
     let db = client.db(dbName)
     var comm_col = db.collection('communities')
     community.balance = 0;
@@ -465,12 +446,9 @@ async function calculateVotes(client, movement_id) {
     //Add the downstream votes to get the total votes
     num_votes += downstream.length;
 
-    movements_col.updateOne(
-        { _id: movement._id },
-        {
-            $set: { "count": num_votes},
-        }
-    );
+    movements_col.updateOne({ _id: movement._id }, {
+        $set: { "count": num_votes },
+    });
     return num_votes;
 }
 
@@ -558,7 +536,7 @@ module.exports.getCommunity = async function(id) {
     }
 };
 
-module.exports.getAllCommunities = async function () {
+module.exports.getAllCommunities = async function() {
     const uri = fs.readFileSync('uri.txt', 'utf8');
     const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true });
     try {
@@ -572,7 +550,7 @@ module.exports.getAllCommunities = async function () {
     }
 };
 
-module.exports.getDonation = async function (id) {
+module.exports.getDonation = async function(id) {
     const uri = fs.readFileSync('uri.txt', 'utf8');
     const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true });
     try {
@@ -684,7 +662,7 @@ module.exports.calculateVotes = async function(id) {
     }
 };
 
-module.exports.createMovement = async function (user_id, movement) {
+module.exports.createMovement = async function(user_id, movement) {
     const uri = fs.readFileSync('uri.txt', 'utf8');
     const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true });
     try {
@@ -698,7 +676,7 @@ module.exports.createMovement = async function (user_id, movement) {
     }
 };
 
-module.exports.trust = async function (truster_id, trustee_id) {
+module.exports.trust = async function(truster_id, trustee_id) {
     const uri = fs.readFileSync('uri.txt', 'utf8');
     const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true });
     try {
@@ -712,7 +690,7 @@ module.exports.trust = async function (truster_id, trustee_id) {
     }
 };
 
-module.exports.createDonation = async function (user_id, community_id, donation) {
+module.exports.createDonation = async function(user_id, community_id, donation) {
     const uri = fs.readFileSync('uri.txt', 'utf8');
     const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true });
     try {
@@ -726,7 +704,7 @@ module.exports.createDonation = async function (user_id, community_id, donation)
     }
 };
 
-module.exports.createUser = async function (user) {
+module.exports.createUser = async function(user) {
     const uri = fs.readFileSync('uri.txt', 'utf8');
     const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true });
     try {
@@ -740,7 +718,7 @@ module.exports.createUser = async function (user) {
     }
 };
 
-module.exports.passMovements = async function (community_id) {
+module.exports.passMovements = async function(community_id) {
     const uri = fs.readFileSync('uri.txt', 'utf8');
     const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true });
     try {
@@ -754,7 +732,7 @@ module.exports.passMovements = async function (community_id) {
     }
 };
 
-module.exports.getTrustedBy = async function (user_id) {
+module.exports.getTrustedBy = async function(user_id) {
     const uri = fs.readFileSync('uri.txt', 'utf8');
     const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true });
     try {

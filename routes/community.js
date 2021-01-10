@@ -56,7 +56,8 @@ async function createC(client, req) {
 }
 
 
-router.post('/community/create', upload.single('image'), async(req, res) => {
+
+router.post('/upload', upload.single('image'), async(req, res) => {
     if (!req.file) {
         console.log("No file received");
     }
@@ -64,28 +65,14 @@ router.post('/community/create', upload.single('image'), async(req, res) => {
     const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true });
     try {
         await client.connect();
-
-        /*console.log(req.file.filename)
         var photo = new Photo();
         photo.img = {
             data: fs.readFileSync(path.join(__dirname + '/../uploads/photos/' + req.file.filename)),
             contentType: 'image/png'
-        }*/
-
+        }
         let db = client.db("nwHacks")
-
-        var community = new Community()
-        console.log(req.body.description);
-        community.description = req.body.description
-        community.name = req.body.name
-        community.lifetime_votes = 0
-        community.votes = 0
-        community.balance = 0
-
-        //community.photo = photo._id
-        //await db.collection('photos').insertOne(photo)
-        await db.collection('communities').insertOne(community);
-        res.render('community')
+        await db.collection('photos').insertOne(photo)
+        res.render('lp')
     } catch (e) {
         console.error(e);
     } finally {
