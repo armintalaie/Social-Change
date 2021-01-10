@@ -50,7 +50,12 @@ router.post('/signup', (req, res) => {
                     email: email,
                     password: password,
                     bio: bio,
-                    points: 0
+                    points: 0,
+                    trusts: undefined,
+                    trusted_by: [],
+                    donations: [],
+                    movements: [],
+                    balance: 200,
                 });
 
                 //hash password

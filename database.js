@@ -183,15 +183,16 @@ async function getDonations(client, id) {
     return null;
 }
 
-async function vote(client, movement_id, user_id) {
+async function voteFunk(client, movement_id, user_id) {
     let db = client.db(dbName);
+
     let user_col = db.collection('users')
     let move_col = db.collection('movements')
     let comm_col = db.collection("communities");
 
     let user = await user_col.findOne({ "_id": user_id })
 
-    let user_movements = await getMovements(user._id);
+    let user_movements = await getMovements(client,user._id);
     let movement_ids = []
     for (user_movement of user_movements) {
         movement_ids.push(user_movement._id);
@@ -204,8 +205,8 @@ async function vote(client, movement_id, user_id) {
     if (movement) {
         addPoint(user, movement_vote_pts);
         user.votes.push(movement._id);
-        movements.votes.push(user._id);
-        movement.count = await calculateVotes(movement._id);
+        movement.votes.push(user._id);
+        movement.count = await calculateVotes(client,movement._id);
 
         await user_col.updateOne({ _id: user._id }, {
             $set: { "votes": user.votes },
@@ -215,15 +216,17 @@ async function vote(client, movement_id, user_id) {
             $set: { "votes": movement.votes, "count": movement.count },
         });
 
-        comm.votes += 1;
-        comm.lifetime_votes += 1;
-        if (comm.votes >= cmnty_votes_threshold) {
-            await passMovements(client, comm);
-        }
+        if (comm){
+            comm.votes += 1;
+            comm.lifetime_votes += 1;
+            if (comm.votes >= cmnty_votes_threshold) {
+                await passMovements(client, comm);
+            }
 
-        await comm_col.updateOne({ _id: comm._id }, {
-            $set: { "votes": comm.votes, "lifetime_votes": comm.lifetime_votes },
-        });
+            await comm_col.updateOne({ _id: comm._id }, {
+                $set: { "votes": comm.votes, "lifetime_votes": comm.lifetime_votes },
+            });
+        }
     }
     return null;
 }
@@ -606,13 +609,13 @@ module.exports.getDonations = async function(id) {
     }
 };
 
-module.exports.vote = async function(movement_id, user_id) {
+module.exports.voteFunk = async function(movement_id, user_id) {
     const uri = fs.readFileSync('uri.txt', 'utf8');
     const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true });
     try {
         await client.connect();
         const db = client.db(dbName);
-        return await vote(client, movement_id, user_id);
+        return await voteFunk(client, movement_id, user_id);
     } catch (e) {
         console.error(e);
     } finally {

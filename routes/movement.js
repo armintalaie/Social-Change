@@ -40,7 +40,8 @@ router.post("/create", upload.single('image'), async(req, res) => {
     mv.count = 0;
     mv.passed = false;
     mv.created_by = req.user._id;
-
+    mv.votes = [];
+    mv.donations = [];
     let community = req.body.community;
 
     var photo = new Photo();
@@ -69,7 +70,7 @@ router.get('/vote/:movementid/:userid', async(req, res) => {
     let user_id = mongoose.Types.ObjectId(req.params.userid);
     let movement_id = mongoose.Types.ObjectId(req.params.movementid);
 
-    await db.vote(movement_id, user_id);
+    await db.voteFunk(movement_id, user_id);
 })
 
 module.exports = router;
