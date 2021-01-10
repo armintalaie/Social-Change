@@ -25,18 +25,17 @@ var upload = multer({ storage: storage })
 
 // restarts the community by removing the movements in it and distributing the money
 router.get('/community/restart/:id', async (req, res) => {
-    await db.passMovements(req.param.id);
+    await db.passMovements(mongoose.Types.ObjectId(req.params.id));
 })
-
 
 // find community by id and get all the movements + the votes it has
 router.get('/community/:id', async (req, res) => {
-    let comm = await db.getCommunity(req.param.id);
-    req.body.movements = await db.getMovements(comm._id);
-    req.body.community = comm;
+    let comm = await db.getCommunity(mongoose.Types.ObjectId(req.params.id));
+    res.locals.movements = await db.getMovements(comm._id);
+    res.locals.community = comm;
+    res.locals.donations = await db.getDonations(comm._id);
     res.render('community');
 })
-
 
 async function createC(client, req) {
     var photo = new Photo();

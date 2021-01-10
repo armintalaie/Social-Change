@@ -83,12 +83,12 @@ async function getTrustedBy(client, user_id) {
     let db = client.db(dbName);
     let user_col = db.collection("users");
 
-    let user = await user_col.findOne({ "_id": id });
+    let user = await user_col.findOne({ "_id": user_id });
     if (user) {
         return await user_col.find({ _id: { $in: user.trusted_by } }).toArray();
     }
 
-    return null;
+    return [];
 }
 
 async function getMovement(client, id) {

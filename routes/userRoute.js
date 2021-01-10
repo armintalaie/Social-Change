@@ -1,5 +1,6 @@
 const express = require('express')
 const router = express.Router()
+const mongoose = require('mongoose')
 const User = require('../models/user')
 const passport = require('passport')
 const session = require('express-session');
@@ -95,8 +96,6 @@ router.get('/signin', (req, res) => {
 
 })
 
-
-
 // sign out user and remove session
 router.get('/signout', (req, res) => {
     router.get('/user/signout', (req, res) => {
@@ -109,13 +108,29 @@ router.get('/signout', (req, res) => {
 
 
 router.get('/profile', async(req, res) => {
-    if (!req.user)
+    if (!req.user) {
         res.render('signin')
+    } else {
+        res.locals.movements = await db.getMovements(req.user._id)
+    
+        //console.log(res.locals.movements)
+        res.locals.user = req.user;
+        res.locals.trusted_by = await db.getTrustedBy(req.user._id);
+        res.locals.trusts = await db.getUser(req.user.trusts);
+    
+        res.render('profile')
+    }
+        
+})
 
-    res.locals.movements = await db.getMovements(req.user._id)
+router.get('/profile/:id', async(req, res) => {
+    let user = await db.getUser(mongoose.Types.ObjectId(req.params.id));
+    res.locals.movements = await db.getMovements(user._id);
 
-    console.log(res.locals.movements)
-    res.locals.user = req.user
+    //console.log(res.locals.movements)
+    res.locals.user = user;
+    res.locals.trusted_by = await db.getTrustedBy(user._id);
+    res.locals.trusts = await db.getUser(user.trusts);
 
     res.render('profile')
 
