@@ -27,6 +27,19 @@
                         name="goal" placeholder="goal" autocomplete="off">
             </div>
 
+            <div class="container w-25 mt-5">
+                <h4>Select Community</h4>
+                <% communities.forEach(c=> { %>
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" name="community" id="exampleRadios1" value=<%-
+                            c._id %>
+                        checked>
+                        <label class="form-check-label" for="exampleRadios1">
+                            <%= c.name %>
+                        </label>
+                    </div>
+                    <%}) %>
+            </div>
             <br>
             <br>
             <br>
@@ -35,7 +48,6 @@
             </div>
             </form>
 
-            </div>
         </section>
 
 </body>
