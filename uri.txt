@@ -1,0 +1,1 @@
+mongodb+srv://Kevin:zuNfarbTfeeRDYz8@cluster0.rbltt.mongodb.net/nwHacks?retryWrites=true&w=majority
