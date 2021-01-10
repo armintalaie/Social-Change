@@ -3,7 +3,10 @@ const Schema = mongoose.Schema;
 
 const communitySchema = new Schema({
     name: String,
-    photo: String,
+    photo: {
+        type: mongoose.Types.ObjectId,
+        ref: "photos",
+    },
     description: String,
 
     movements: [
@@ -14,9 +17,6 @@ const communitySchema = new Schema({
             },
         },
     ],
-
-    fund: Number,
-    count: Number,
 
     donations: [
         {

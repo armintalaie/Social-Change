@@ -13,7 +13,10 @@ const userSchema = new Schema({
         }
     }],
 
-    photo: String,
+    photo: {
+        type: mongoose.Types.ObjectId,
+        ref: "photos",
+    },
     bio: String,
     points: Number,
 

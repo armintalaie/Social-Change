@@ -7,7 +7,10 @@ const movementSchema = new Schema({
         type: mongoose.Types.ObjectId,
         ref: "communites"
     },
-    photo: String,
+    photo: {
+        type: mongoose.Types.ObjectId,
+        ref: "photos",
+    },
     description: String,
 
     votes: [{
