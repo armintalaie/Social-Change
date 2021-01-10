@@ -25,14 +25,29 @@
                     <br>
                     <input type="number" class="form-control bg-graylight border-0 font-weight-bold" id="goal"
                         name="goal" placeholder="goal" autocomplete="off">
-                    <br>
-                    <br>
-                    <br>
-                    <button class="btn-indigo btn" type="submit"> Create </button>
-
-                </form>
-
             </div>
+
+            <div class="container w-25 mt-5">
+                <h4>Select Community</h4>
+                <% communities.forEach(c=> { %>
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" name="community" id="exampleRadios1" value=<%-
+                            c._id %>
+                        checked>
+                        <label class="form-check-label" for="exampleRadios1">
+                            <%= c.name %>
+                        </label>
+                    </div>
+                    <%}) %>
+            </div>
+            <br>
+            <br>
+            <br>
+            <div class="d-flex justify-content-center">
+                <button class="btn-secondary btn mx-auto btn-lg" type="submit"> Create </button>
+            </div>
+            </form>
+
         </section>
 
 </body>
