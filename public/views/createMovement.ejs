@@ -25,12 +25,20 @@
                     <br>
                     <input type="number" class="form-control bg-graylight border-0 font-weight-bold" id="goal"
                         name="goal" placeholder="goal" autocomplete="off">
-                    <br>
-                    <br>
-                    <br>
-                    <button class="btn-indigo btn" type="submit"> Create </button>
-
-                </form>
+            </div>
+            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                <% communities.forEach(c=> {%>
+                    <a class="dropdown-item" href="#">
+                        <%=c.name%>
+                    </a>
+                    <%}) %>
+                        <br>
+                        <br>
+                        <br>
+                        <div class="d-flex justify-content-center">
+                            <button class="btn-secondary btn mx-auto btn-lg" type="submit"> Create </button>
+                        </div>
+                        </form>
 
             </div>
         </section>
