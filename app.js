@@ -36,12 +36,10 @@ app.get('/', (req, res) => {
 
 })
 
-app.get('/home', (req, res) => {
+app.get('/home', async(req, res) => {
 
-
-    app.locals.movements = db.getAllMovements();
+    res.locals.movements = await db.getAllMovements()
     res.render('lp')
-
 
 })
 
@@ -66,7 +64,7 @@ app.listen(port);
 
 
 
-async function test(){
+async function test() {
 
     let user = await db.getUser(mongoose.Types.ObjectId("5ffa380bc6c7e25d3d20af53"));
     console.log(user);

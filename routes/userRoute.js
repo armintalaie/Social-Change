@@ -4,6 +4,7 @@ const User = require('../models/user')
 const passport = require('passport')
 const session = require('express-session');
 const bcrypt = require('bcrypt');
+const db = require("../database")
 
 
 
@@ -105,6 +106,18 @@ router.get('/signout', (req, res) => {
     })
 })
 
+
+
+router.get('/profile', async(req, res) => {
+    if (!req.user)
+        res.render('signin')
+
+    res.locals.movements = await db.getUserMovements(req.user._id)
+
+    res.render('profile')
+
+
+})
 
 module.exports = router
 
