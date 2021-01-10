@@ -9,6 +9,7 @@ var bodyParser = require('body-parser')
 const session = require('express-session')
 
 const movements = require('./routes/movement')
+const community = require('./routes/community')
 const passport = require('passport')
 require("./passport")(passport)
 const userRoute = require('./routes/userRoute')
@@ -23,7 +24,7 @@ app.set('view engine', 'ejs')
 
 
 app.use(bodyParser.json()) // for parsing application/json
-app.use(bodyParser.urlencoded({ extended: true }))
+app.use(bodyParser.urlencoded({ extended: false }))
 
 
 
@@ -31,8 +32,6 @@ app.get('/', (req, res) => {
 
 
     res.redirect('/home')
-
-
 
 })
 
@@ -58,6 +57,7 @@ app.use(passport.session())
 
 app.use(movements)
 app.use(userRoute)
+app.use(community)
 
 const port = process.env.PORT || 5000;
 app.listen(port);
