@@ -7,6 +7,7 @@ import { Alert } from "reactstrap";
 // component imports
 import Navbar from "./components/navbar";
 import SignUpPage from "./components/signup";
+import LandingPage from "./components/landingpage";
 
 function App() {
     return (
@@ -17,6 +18,7 @@ function App() {
                     This is a primary alert — check it out!
                 </Alert>
                 <SignUpPage />
+                <LandingPage />
             </div>
         </div>
     );
