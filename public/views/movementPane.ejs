@@ -1,9 +1,10 @@
 <div class="card" style="width: 18rem;">
-    <div class="card-body">
-        <% if (movement.image) { %>
-            <img src="data:image/<%=movement.image.contentType%>;base64,
-                                                                <%=movement.image.data.toString('base64')%>" style="width: 10vw; height: auto;">
-            <% } %>
+    <% if (movement.image) { %>
+        <img src="data:image/<%=movement.image.contentType%>;base64,
+                                                            <%=movement.image.data.toString('base64')%>" style="width: 10vw; height: auto;">
+        <% } %>
+            <div class="card-body">
+
                 <h5 class="card-title">
                     <%= movement.name %>
                 </h5>
@@ -18,5 +19,5 @@
                         <% if (user) { %>
                             <a href="/vote/<%= movement._id.toString() %>/<%= user._id.toString() %>" class="btn btn-primary">Vote : <%= movement.count %></a>
                             <% } %>
-    </div>
+            </div>
 </div>
