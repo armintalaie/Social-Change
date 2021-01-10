@@ -15,16 +15,8 @@ const cmnty_donation_pts = 10
 
 
 const uri = "mongodb+srv://Kevin:zuNfarbTfeeRDYz8@cluster0.rbltt.mongodb.net/nwHacks?retryWrites=true&w=majority"
-const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true });
-var db
+const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true })
 
-MongoClient.connect(uri, { useNewUrlParser: true, useUnifiedTopology: true }, function(err, db) {
-    if (err) {
-        console.log('failed to connect ' + err)
-    } else {
-
-    }
-})
 
 
 
