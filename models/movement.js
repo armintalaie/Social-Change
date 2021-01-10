@@ -7,25 +7,21 @@ const movementSchema = new Schema({
     photo: String,
     description: String,
 
-    votes: [
-        {
-            id: {
-                type: mongoose.Types.ObjectId,
-                ref: "users"
-            }
+    votes: [{
+        id: {
+            type: mongoose.Types.ObjectId,
+            ref: "users"
         }
-    ],
+    }],
 
     goal: Number,
-    
-    donations: [
-        {
-            id: {
-                type: mongoose.Types.ObjectId,
-                ref: "donations"
-            }
+
+    donations: [{
+        id: {
+            type: mongoose.Types.ObjectId,
+            ref: "donations"
         }
-    ]
+    }]
 });
 
 const Movement = mongoose.model('movement', movementSchema)
