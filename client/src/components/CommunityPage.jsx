@@ -1,10 +1,11 @@
 import React from "react";
 // import NavBar from "./NavBar";
-import { Button, Form, FormGroup, Input, Card } from "reactstrap";
+import MomentumCard from "./MomentumCard";
+import { Button, Form, FormGroup, Input, ListGroup } from "reactstrap";
 import { FaTag } from "react-icons/fa";
 import "../styles/CommunityPage.scss";
 
-function CommunityPage() {
+function CommunityPage({ momentum }) {
   return (
     <div className="community__wrapper">
       <div className="community__header">
@@ -25,7 +26,7 @@ function CommunityPage() {
             </Button>
           </div>
         </div>
-        <Form>
+        <Form className="community__header--search">
           <FormGroup>
             <Input
               type="search-bar"
@@ -35,6 +36,13 @@ function CommunityPage() {
             />
           </FormGroup>
         </Form>
+      </div>
+      <div className="community__content">
+        {/* <ListGroup>
+          {momentums.map(momentum => (
+            <MomentumCard key={momentum.id} momentum={momentum} />
+          ))}
+        </ListGroup> */}
       </div>
     </div>
   );

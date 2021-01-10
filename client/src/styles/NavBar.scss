@@ -1,5 +1,9 @@
 .navbar {
   width: 100%;
+  padding: 0em;
+  &-brand {
+    padding: 15px;
+  }
   &__options {
     justify-content: space-between;
   }
