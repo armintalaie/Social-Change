@@ -1,6 +1,9 @@
 const express = require('express')
 const router = express.Router()
 const User = require('../models/user')
+const passport = require('passport')
+const session = require('express-session');
+const bcrypt = require('bcrypt');
 
 
 
@@ -9,8 +12,8 @@ const User = require('../models/user')
  *   hash password of user
  *   save user info on mongodb server
  */
-router.post('signup', (req, res) => {
-    const { name, email, password, password2 } = req.body
+router.post('/signup', (req, res) => {
+    const { name, email, password, password2, bio } = req.body
     let errors = []
     if (!name || !email || !password || !password2) {
         errors.push({ msg: "Please fill in all fields :)" })
@@ -25,7 +28,7 @@ router.post('signup', (req, res) => {
         errors.push({ msg: 'password atleast 6 characters' })
     }
     if (errors.length > 0) {
-        res.render('user/signup', {
+        res.render('signup', {
             errors: errors,
             name: name,
             email: email,
@@ -37,13 +40,15 @@ router.post('signup', (req, res) => {
         User.findOne({ email: email }).exec((err, user) => {
             if (user) {
                 errors.push({ msg: 'email already registered' });
-                render(res, errors, name, email, password, password2);
+                render(res, errors, name, email, password, password2, bio);
 
             } else {
                 const newUser = new User({
                     name: name,
                     email: email,
-                    password: password
+                    password: password,
+                    bio: bio,
+                    points: 0
                 });
 
                 //hash password
@@ -70,28 +75,29 @@ router.post('signup', (req, res) => {
 
 // Create new user if information is sufficient
 router.get('/signup', (req, res) => {
-
+    if (!req.user)
+        console.log('not signed in')
+    res.render('signup')
 })
 
 
 // User singin authentication
-router.post('/signin', (req, res) => {
-    passport.authenticate('local', {
-        successRedirect: 'landing',
-        failureRedirect: 'signin',
-    })
-})
+router.post('/signin', passport.authenticate('local', {
+    successRedirect: '/home',
+    failureRedirect: '/signup',
+}))
 
 
 // User signin request
 router.get('/signin', (req, res) => {
+    res.render('signin')
 
 })
 
 
 
 // sign out user and remove session
-router.get('signout', (req, res) => {
+router.get('/signout', (req, res) => {
     router.get('/user/signout', (req, res) => {
         userAuth
         req.logout();
@@ -99,6 +105,8 @@ router.get('signout', (req, res) => {
     })
 })
 
+
+module.exports = router
 
 
 

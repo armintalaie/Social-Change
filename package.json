@@ -21,12 +21,15 @@
     "homepage": "https://github.com/armintalaie/Social-Change#readme",
     "dependencies": {
         "bcrypt": "^5.0.0",
+        "bootstrap": "^4.5.3",
+        "connect-flash": "^0.1.1",
         "connect-mongo": "^3.2.0",
         "ejs": "^3.1.5",
         "express": "^4.17.1",
+        "express-ejs-layouts": "^2.5.0",
         "express-session": "^1.17.1",
         "mongodb": "^3.6.3",
-        "mongoose": "^5.11.8",
+        "mongoose": "^5.11.11",
         "passport": "^0.4.1",
         "passport-local": "^1.0.0"
     }

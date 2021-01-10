@@ -16,9 +16,18 @@ const cmnty_donation_pts = 10
 
 
 
-router.get('/create', (req, res) => {
+router.post('/create', (req, res) => {
 
     var mv = Movement()
+
+
+    mv.name = req.body.name
+    mv.description = req.body.description
+    mv.goal = req.body.goal
+
+    mv.votes.push(req.user._id)
+    req.user.votes.push(mv._id)
+
 
     mv.save()
         .then((result) => {
@@ -28,6 +37,14 @@ router.get('/create', (req, res) => {
         .catch((err) => {
             console.log(err)
         })
+})
+
+
+router.get('/create', (req, res) => {
+    if (!req.user)
+        res.redirect('/signin')
+
+    res.render('createMovement')
 })
 
 
