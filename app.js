@@ -42,7 +42,6 @@ app.get('/home', (req, res) => {
     res.render('lp')
 
 
-
 })
 
 

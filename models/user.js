@@ -17,14 +17,25 @@ const userSchema = new Schema({
     bio: String,
     points: Number,
 
-    donations: [
-        {
-            id: {
-                type: mongoose.Types.ObjectId,
-                ref: "donations"
-            }
+    donations: [{
+        id: {
+            type: mongoose.Types.ObjectId,
+            ref: "donations"
         }
-    ]
+    }],
+    votes: [{
+        id: {
+            type: mongoose.Types.ObjectId,
+            ref: "movements"
+        }
+    }],
+    movements: [{
+        id: {
+            type: mongoose.Types.ObjectId,
+            ref: "movements"
+        }
+    }]
+
 })
 
 const User = mongoose.model('user', userSchema)
