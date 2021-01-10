@@ -22,7 +22,12 @@ const communitySchema = new Schema({
                 ref: "donations"
             }
         }
-    ]
+    ],
+
+    balance: Number,
+
+    votes: Number,
+    lifetime_votes: Number
 
 });
 

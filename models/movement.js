@@ -24,7 +24,12 @@ const movementSchema = new Schema({
             type: mongoose.Types.ObjectId,
             ref: "donations"
         }
-    }]
+    }],
+
+    created_by : mongoose.Types.ObjectId,
+    count: Number,
+
+    passed : Boolean
 });
 
 const Movement = mongoose.model('movement', movementSchema)
