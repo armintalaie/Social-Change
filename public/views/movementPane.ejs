@@ -1,14 +1,23 @@
 <div class="card" style="width: 18rem;">
     <img class="card-img-top" src="..." alt="Card image cap">
     <div class="card-body">
-        <h5 class="card-title"><%= movement.name %></h5>
-        <p class="card-text"><%= movement.description %></p>
-        <% if (movement.created_by) { %>
-        <a href="/profile/<%= movement.created_by.toString() %>" class="btn btn-primary">See Creator's Profile</a>
-        <% } %>
-        <p class="card-text"></p>
-        <% if (user) { %>
-        <a href="/vote/<%= movement._id.toString() %>/<%= user._id.toString() %>" class="btn btn-primary">Vote : <%= movement.count %></a>
-        <% } %>
+        <% if (movement.image) { %>
+            <img src="data:image/<%=movement.image.contentType%>;base64,
+                                                                <%=movement.image.data.toString('base64')%>">
+            <% } %>
+                <h5 class="card-title">
+                    <%= movement.name %>
+                </h5>
+                <p class="card-text">
+                    <%= movement.description %>
+                </p>
+                <% if (movement.created_by) { %>
+
+                    <a href="/profile/<%= movement.created_by.toString() %>" class="btn btn-primary">See Creator's Profile</a>
+                    <% } %>
+                        <p class="card-text"></p>
+                        <% if (user) { %>
+                            <a href="/vote/<%= movement._id.toString() %>/<%= user._id.toString() %>" class="btn btn-primary">Vote : <%= movement.count %></a>
+                            <% } %>
     </div>
 </div>

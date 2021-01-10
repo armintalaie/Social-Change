@@ -44,19 +44,16 @@ router.post("/create", upload.single('image'), async(req, res) => {
     let community = req.body.community;
 
     var photo = new Photo();
-    photo.img = {
+    mv.image = await {
         data: fs.readFileSync(path.join(__dirname + '/../uploads/photos/' + req.file.filename)),
         contentType: 'image/png'
     }
 
-    await db.createPhoto(photo)
-
-    mv.photo = photo._id
-
     mv.community = mongoose.Types.ObjectId(community);
 
-    await db.createMovement(req.user._id, community._id, mv)
-    
+    console.log(mv)
+    await db.createMovement(req.user._id, mv.community, mv)
+
     res.redirect('/')
 });
 
@@ -68,11 +65,11 @@ router.get("/create", async(req, res) => {
     res.render("createMovement");
 });
 
-router.get('/vote/:movementid/:userid', async (req, res) => {
+router.get('/vote/:movementid/:userid', async(req, res) => {
     let user_id = mongoose.Types.ObjectId(req.params.userid);
     let movement_id = mongoose.Types.ObjectId(req.params.movementid);
 
-    await db.vote(movement_id,user_id);
+    await db.vote(movement_id, user_id);
 })
 
 module.exports = router;

@@ -193,11 +193,11 @@ async function vote(client, movement_id, user_id) {
 
     let user_movements = await getMovements(user._id);
     let movement_ids = []
-    for (user_movement of user_movements){
+    for (user_movement of user_movements) {
         movement_ids.push(user_movement._id);
     }
 
-    let movement = await move_col.findOne({ "_id": movement_id, "_id": { "$nin": movement_ids} });
+    let movement = await move_col.findOne({ "_id": movement_id, "_id": { "$nin": movement_ids } });
 
     let comm = await comm_col.findOne({ "_id": movement.community });
     //user can't vote twice
@@ -303,7 +303,9 @@ async function createMovement(client, user_id, comm_id, movement) {
 
     var user = await user_col.findOne({ "_id": user_id })
     var comm = await comm_col.findOne({ "_id": comm_id })
+    console.log('swjnlkjnwfjmjnjnjnjnjnjnjnjnjnjnjnjnjnkljnlk')
     if (user && comm) {
+        console.log('swjnlkjnwfkljnlk')
         movement.created_by = user._id;
         movement.votes.push(user._id);
         movement.count = 1;
@@ -314,7 +316,7 @@ async function createMovement(client, user_id, comm_id, movement) {
         });
         comm.movements.push(movement._id);
         comm_col.updateOne({ _id: comm._id }, {
-            $set: { "movements": comm.movements},
+            $set: { "movements": comm.movements },
         });
         return move_col.insertOne(movement);
     }

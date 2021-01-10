@@ -38,7 +38,7 @@ const userSchema = new Schema({
             ref: "movements"
         }
     }],
-    balance : Number
+    balance: Number
 })
 
 const User = mongoose.model('user', userSchema)

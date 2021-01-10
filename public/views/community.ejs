@@ -16,17 +16,13 @@
 
             <div class="container p-6">
                 <h1 class="text-center p-3">Community </h1>
-                <form action="/community/Create" method="post" class="bd-search hidden-sm-down small"
-                    enctype="multipart/form-data" method="post">
-                    <input type="text" class="form-control bg-graylight border-0 font-weight-bold" id="name" name="name"
-                        placeholder="Name" autocomplete="off">
+                <form action="/community/Create" method="post" class="bd-search hidden-sm-down small" enctype="multipart/form-data" method="post">
+                    <input type="text" class="form-control bg-graylight border-0 font-weight-bold" id="name" name="name" placeholder="Name" autocomplete="off">
                     <br>
                     <br>
-                    <input type="text" class="form-control bg-graylight border-0 font-weight-bold" id="description"
-                        name="description" placeholder="description" autocomplete="off">
+                    <input type="text" class="form-control bg-graylight border-0 font-weight-bold" id="description" name="description" placeholder="description" autocomplete="off">
                     <br>
-                    <input type="number" class="form-control bg-graylight border-0 font-weight-bold" id="goal"
-                        name="goal" placeholder="goal" autocomplete="off">
+                    <input type="number" class="form-control bg-graylight border-0 font-weight-bold" id="goal" name="goal" placeholder="goal" autocomplete="off">
                     <br>
                     <br>
                     <input type="file" id="image" name="image" value="">
@@ -52,14 +48,14 @@
 
             </div>
         </section>
-        
+
         <section>
             <% if (movements) { %>
                 <h4> Movements </h4>
                 <div class="container mb-3" style="max-width: 25rem;">
                     <% movements.forEach(movement=> { %>
                         <%- include('movementPane.ejs', {movement : movement, user : user}) %>
-                        <% }) %>
+                            <% }) %>
                 </div>
                 <% } else { %>
                     <div class="container">

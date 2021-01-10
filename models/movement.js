@@ -12,6 +12,7 @@ const movementSchema = new Schema({
         ref: "photos",
     },
     description: String,
+    image: { data: Buffer, contentType: String },
 
     votes: [{
         id: {
@@ -29,10 +30,10 @@ const movementSchema = new Schema({
         }
     }],
 
-    created_by : mongoose.Types.ObjectId,
+    created_by: mongoose.Types.ObjectId,
     count: Number,
 
-    passed : Boolean
+    passed: Boolean
 });
 
 const Movement = mongoose.model('movement', movementSchema)
