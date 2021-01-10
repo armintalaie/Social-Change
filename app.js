@@ -11,10 +11,15 @@ const app = express();
 app.use(express.static(path.join(__dirname, "client/build")));
 
 
+app.set('views', __dirname + '/public/views')
+app.set('view engine', 'ejs')
 
 
 
-
+app.get('/', (req, res) => {
+    console.log('sss')
+    res.render('index')
+})
 
 
 
