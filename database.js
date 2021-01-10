@@ -302,7 +302,7 @@ async function createMovement(client, user_id, movement) {
         movement.count = 1;
         user.movements.push(movement._id);
         user_col.updateOne({ _id: user._id }, {
-            $set: { "movements": user.movements},
+            $set: { "movements": user.movements },
         });
         return move_col.insertOne(movement);
     }
@@ -355,16 +355,14 @@ async function createPhoto(client, photo) {
 }
 
 // top people
-function topAmbassadors(client) {
+async function topAmbassadors(client) {
 
     let db = client.db(dbName)
     var user_col = db.collection('users')
     var top = new Array(num_top_amsdrs)
-    user_col.find().sort({ votes: -1 })
-        .limit(num_top_amsdrs),
-        function(err, results) {
-            top = results
-        }.lean()
+    top = await user_col.find().sort({ points: -1 })
+        .limit(num_top_amsdrs).toArray()
+    console.log(top)
 
     return top
 

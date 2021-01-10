@@ -16,17 +16,18 @@
 
     <%- include('nav.ejs') %>
         <section>
-            <div class="bg-info row align-items-centeri p-4">
+            <div class="bg-info row align-items-center p-4">
                 <div class="col">
                     <img class="rounded"
                         src="https://ichef.bbci.co.uk/news/976/cpsprodpb/64BC/production/_112888752_2brightonblm.jpg"
                         width=500px>
                 </div>
                 <div class="col p-3">
-                    <h3>Welcome to Momentum</h3>
-                    <h2>Anyone has the power to create momentum</h2>
-                    <h5>Join communities of like-minded activists, support a movement, lead a
-                        movement, see how every dollar is changing the world</h5>
+                    <h1 class="text-center font-weight-bold">Welcome to Momentum</h1>
+                    <h2 class="text-center">Anyone has the power to create momentum</h2>
+                    <h5 class="text-center">Join communities of like-minded activists, support a movement, lead a
+                        movement, see how every
+                        dollar is changing the world</h5>
                 </div>
             </div>
         </section>
@@ -62,7 +63,6 @@
 
 
 
-
                             </div>
                         </div>
                         <% }) %>
@@ -73,6 +73,8 @@
                     </div>
                     <% } %>
                         </div>
+
+
         </section>
         <section class="bg-info p-4">
             <h3 class="text-center p-4"> Popular Communities </h3>
@@ -82,84 +84,103 @@
                             <a href="/community/5ffafebac9ee5f760778f044" style="color:black;"><i
                                     class="fas fa-fist-raised"></i></a>
                         </span>
-                        <br>
-                        Toronto Black Lives Matter Community
+                        <br> Toronto Black Lives Matter Community
                     </div>
                     <div class="col text-center"> <span style="font-size: 48px; color: #fff;">
                             <a href="#" style="color:black;"><i class="fas fa-head-side-mask"></i></a>
                         </span>
-                        <br>
-                        Vancouver COVID-19 Recovery
+                        <br> Vancouver COVID-19 Recovery
                     </div>
                     <div class="col text-center"> <span style="font-size: 48px; color: #fff;">
                             <a href="#" style="color:black;"><i class="fas fa-fire"></i></a>
                         </span>
-                        <br>
-                        California Wildfires
+                        <br> California Wildfires
                     </div>
                 </div>
                 <div class="row">
                     <div class="col text-center"> <span style="font-size: 48px; color: Dodgerblue;">
                             <a href="#" style="color:black;"><i class="fas fa-brain"></i></a>
                         </span>
-                        <br>
-                        UBC Mental Wellness
+                        <br> UBC Mental Wellness
                     </div>
                     <div class="col text-center"> <span style="font-size: 48px; color: Dodgerblue;">
                             <a href="#" style="color:black;"><i class="fas fa-home"></i></a>
                         </span>
-                        <br>
-                        Homelessness in British Columbia
+                        <br> Homelessness in British Columbia
                     </div>
                     <div class="col text-center"> <span style="font-size: 48px; color: Dodgerblue;">
                             <a href="#" style="color:black;"><i class="fas fa-rainbow"></i></a>
                         </span>
-                        <br>
-                        Canadian LGBTQIA2S+
+                        <br> Canadian LGBTQIA2S+
                     </div>
                 </div>
                 <div class="row">
                     <div class="col text-center"> <span style="font-size: 48px; color: Dodgerblue;"> <a href="#"
                                 style="color:black;"><i class="fas fa-balance-scale"></i></a>
                         </span>
-                        <br>
-                        Women's Rights Canada
+                        <br> Women's Rights Canada
                     </div>
                     <div class="col text-center"> <span style="font-size: 48px; color: Dodgerblue;">
                             <a href="#" style="color:black;"><i class="fas fa-utensils"></i></a>
                         </span>
-                        <br>
-                        Food Insecurity Canada
+                        <br> Food Insecurity Canada
                     </div>
                     <div class="col text-center"> <span style="font-size: 48px; color: Dodgerblue;">
                             <a href="#" style="color:black;"><i class="fas fa-frog"></i></a>
                         </span>
-                        <br>
-                        Save the Frogs
+                        <br> Save the Frogs
                     </div>
                 </div>
                 <div class="row">
                     <div class="col text-center"> <span style="font-size: 48px;">
                             <a href="#" style="color:black;"><i class="fas fa-sun"></i></a>
                         </span>
-                        <br>
-                        Climate Change Initiative
+                        <br> Climate Change Initiative
                     </div>
                     <div class="col text-center"> <span style="font-size: 48px;">
                             <a href="#" style="color:black;"><i class="fas fa-pencil-ruler"></i></a>
                         </span>
-                        <br>
-                        School Supplies Panama
+                        <br> School Supplies Panama
                     </div>
                     <div class="col text-center"> <span style="font-size: 48px; color: Dodgerblue;">
                             <a href="#" style="color:black;"><i class="fas fa-hands-helping"></i></a>
                         </span>
-                        <br>
-                        Welcome Canadian Refugees
+                        <br> Welcome Canadian Refugees
                     </div>
                 </div>
             </div>
         </section>
+
+        <br>
+
+        <% if (ambassadors) { %>
+            <h1 class="text-center"> Ambassadors with Momentum </h1>
+            <div>
+                <div class="d-flex flex-wrap mb-3 pt-2 pb-2">
+                    <% ambassadors.forEach(am=> { %>
+                        <div class="card bg-primary m-2 mx-auto p-2
+                        " style="min-width: 250px; min-height: 100px">
+
+                            <h3 class="card-title text-center text-white">
+                                <%= am.name %>
+                            </h3>
+                            <p class="text-white">
+                                <span class="font-weight-bold">POINTS: </span>
+                                <%= am.points %>
+                            </p>
+
+
+
+                        </div>
+                        <% }) %>
+                </div>
+            </div>
+            <% } else { %>
+                <div class="container">
+                    <h1> movement is not loaded</h1>
+                </div>
+                <% } %>
+                    </div>
 </body>
 
 </html>

@@ -29,8 +29,11 @@ app.get("/", (req, res) => {
     res.redirect("/home");
 });
 
-app.get("/home", async (req, res) => {
+app.get("/home", async(req, res) => {
     res.locals.movements = await db.getAllMovements();
+    res.locals.ambassadors = await db.topAmbassadors();
+    console.log(res.locals.ambassadors)
+
     res.render("lp");
 });
 

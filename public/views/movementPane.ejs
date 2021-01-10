@@ -4,8 +4,11 @@
         <h5 class="card-title"><%= movement.name %></h5>
         <p class="card-text"><%= movement.description %></p>
         <% if (movement.created_by) { %>
-        <a href="/profile/<%= movement.created_by.toString() %>" class="btn btn-primary">See Creator's Profile %></a>
+        <a href="/profile/<%= movement.created_by.toString() %>" class="btn btn-primary">See Creator's Profile</a>
         <% } %>
-        <p class="card-text"><%= movement.count %></p>
+        <p class="card-text"></p>
+        <% if (user) { %>
+        <a href="/vote/<%= movement._id.toString() %>/<%= user._id.toString() %>" class="btn btn-primary">Vote : <%= movement.count %></a>
+        <% } %>
     </div>
 </div>
