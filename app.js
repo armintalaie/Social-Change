@@ -59,7 +59,7 @@ async function test() {
     let user = await db.getUser(
         mongoose.Types.ObjectId("5ffa380bc6c7e25d3d20af53")
     );
-    console.log(user);
+    //console.log(user);
 }
 test();
 

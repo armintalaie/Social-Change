@@ -12,7 +12,7 @@
         "type": "git",
         "url": "git+https://github.com/armintalaie/Social-Change.git"
     },
-    "keywords": [],
+    "keywords": ["heroku"],
     "author": "",
     "license": "ISC",
     "bugs": {
