@@ -5,7 +5,8 @@
     <%- include('header.ejs') %>
         <script src="https://kit.fontawesome.com/d4be520661.js" crossorigin="anonymous"></script>
         <script language="javascript" src="node_modules/bootstrap/.../bootstrap.min.js"></script>
-        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+            integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>index</title>
@@ -15,14 +16,18 @@
 
     <%- include('nav.ejs') %>
         <section>
-            <div class="bg-info row align-items-centeri p-4">
+            <div class="bg-info row align-items-center p-4">
                 <div class="col">
-                    <img class="rounded" src="https://ichef.bbci.co.uk/news/976/cpsprodpb/64BC/production/_112888752_2brightonblm.jpg" width=500px>
+                    <img class="rounded"
+                        src="https://ichef.bbci.co.uk/news/976/cpsprodpb/64BC/production/_112888752_2brightonblm.jpg"
+                        width=500px>
                 </div>
                 <div class="col p-3">
-                    <h3>Welcome to Momentum</h3>
-                    <h2>Anyone has the power to create momentum</h2>
-                    <h5>Join communities of like-minded activists, support a movement, lead a movement, see how every dollar is changing the world</h5>
+                    <h1 class="text-center font-weight-bold">Welcome to Momentum</h1>
+                    <h2 class="text-center">Anyone has the power to create momentum</h2>
+                    <h5 class="text-center">Join communities of like-minded activists, support a movement, lead a
+                        movement, see how every
+                        dollar is changing the world</h5>
                 </div>
             </div>
         </section>
@@ -30,22 +35,24 @@
         <section>
             <div class="bg-light row align-items-center p-4">
                 <div class="col">
-                    <h5 class="text-center">Movement of the week</h5>
-                    <h4 class="text-center">Enhacing sports ground accessibility in sports events in West Vancouver</h4>
+                    <h2 class="text-center">Movement of the week</h2>
+                    <h4 class="text-center">Enhancing sports ground accessibility in sports events in
+                        West Vancouver</h4>
                 </div>
                 <div class="col">
-                    <img class="rounded" src="https://www.yvr.ca/-/media/yvr/blog/2019/20180517-yvr-hoopfest-hires0175.jpg" width=500px>
+                    <img class="rounded"
+                        src="https://www.yvr.ca/-/media/yvr/blog/2019/20180517-yvr-hoopfest-hires0175.jpg" width=500px>
                 </div>
             </div>
         </section>
         <section>
 
             <% if (movements) { %>
-                <h1> Popular Movements </h1>
-                <div class="container mb-3 pt-2 pb-2" style="max-width: 25rem;">
+                <h1 class="text-center mt-3"> Popular Movements </h1>
+                <div class="container d-flex flex-wrap mb-3 pt-2 pb-2">
                     <% movements.forEach(mv=> { %>
                         <div>
-                            <div class="card bg-warning mt-2 mb-2">
+                            <div class="card bg-warning m-2 p-4">
 
                                 <h3 class="card-title">
                                     <%= mv.name %>
@@ -74,7 +81,8 @@
             <div class="container" aria-label="Basic example">
                 <div class="row">
                     <div class="col text-center"> <span style="font-size: 48px; color:#fff;">
-                            <a href="/community/5ffafebac9ee5f760778f044" style="color:black;"><i class="fas fa-fist-raised"></i></a>
+                            <a href="/community/5ffafebac9ee5f760778f044" style="color:black;"><i
+                                    class="fas fa-fist-raised"></i></a>
                         </span>
                         <br> Toronto Black Lives Matter Community
                     </div>
@@ -146,24 +154,26 @@
         <br>
 
         <% if (ambassadors) { %>
-            <h1> Ambassadors with Momentum </h1>
-            <div class="container mb-3 pt-2 pb-2" style="max-width: 25rem;">
-                <% ambassadors.forEach(am=> { %>
-                    <div>
-                        <div class="card bg-warning mt-2 mb-2">
+            <h1 class="text-center"> Ambassadors with Momentum </h1>
+            <div>
+                <div class="d-flex flex-wrap mb-3 pt-2 pb-2">
+                    <% ambassadors.forEach(am=> { %>
+                        <div class="card bg-primary m-2 mx-auto p-2
+                        " style="min-width: 250px; min-height: 100px">
 
-                            <h3 class="card-title">
+                            <h3 class="card-title text-center text-white">
                                 <%= am.name %>
                             </h3>
-                            <p>
+                            <p class="text-white">
+                                <span class="font-weight-bold">POINTS: </span>
                                 <%= am.points %>
                             </p>
 
 
 
                         </div>
-                    </div>
-                    <% }) %>
+                        <% }) %>
+                </div>
             </div>
             <% } else { %>
                 <div class="container">

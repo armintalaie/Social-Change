@@ -356,18 +356,19 @@ async function createDonation(client, user_id, community_id, donation) {
     var comm = await comm_col.findOne({ "_id": community_id })
 
     if (user && comm) {
-        comm.balance += donation.amount;
-        comm_col.updateOne({ _id: comm._id }, {
+        comm.balance += donation;
+        await comm_col.updateOne({ _id: comm._id }, {
             $set: { "balance": comm.balance },
         });
-        user.balance -= donation.amount;
-        user.points += cmnty_donation_pts;
-        user_col.updateOne({ _id: user._id }, {
+        user.balance -= donation;
+        user.points += cmnty_donation_pts //+= (cmnty_donation_pts * donation);
+        await user_col.updateOne({ _id: user._id }, {
             $set: { "balance": user.balance, "points": user.points },
         });
-        donation.user = user._id;
-        donation.community = comm._id;
-        return don_col.insertOne(donation);
+        //donation.user = user._id;
+        //donation.community = comm._id;
+        //
+
     }
     return null;
 }
