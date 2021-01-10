@@ -6,6 +6,7 @@ import { Alert } from "reactstrap";
 
 // component imports
 import Navbar from "./components/navbar";
+import SignUpPage from "./components/signup";
 
 function App() {
     return (
@@ -15,6 +16,7 @@ function App() {
                 <Alert color="primary">
                     This is a primary alert — check it out!
                 </Alert>
+                <SignUpPage />
             </div>
         </div>
     );

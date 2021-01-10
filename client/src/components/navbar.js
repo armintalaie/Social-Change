@@ -23,21 +23,6 @@ export default class NavbarLoggedIn extends Component {
 
     render() {
         return (
-            // <div>
-            //     <Navbar color="light" light expand="md">
-            //         <NavbarBrand>LOGO</NavbarBrand>
-            //         <NavbarToggler />
-            //         <Collapse navbar>
-            //             <Nav className="mr-auto" navbar>
-            //                 <NavItem>Dashboard</NavItem>
-            //                 <NavItem>Communities</NavItem>
-            //                 <NavItem>Movements</NavItem>
-            //                 <NavItem>Ambassadors</NavItem>
-            //             </Nav>
-            //             <NavbarText>Simple Text</NavbarText>
-            //         </Collapse>
-            //     </Navbar>
-            // </div>
             <div>
                 <Navbar color="light" light expand="md">
                     <NavbarBrand>
