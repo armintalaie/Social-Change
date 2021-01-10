@@ -47,10 +47,10 @@
 
             <% if (movements) { %>
                 <h1> Popular Movements </h1>
-                <div class="container mb-3" style="max-width: 25rem;">
+                <div class="container mb-3 pt-2 pb-2" style="max-width: 25rem;">
                     <% movements.forEach(mv=> { %>
                         <div>
-                            <div class="card bg-success">
+                            <div class="card bg-success mt-2 mb-2">
 
                                 <h3 class="card-title">
                                     <%= mv.name %>
@@ -72,6 +72,19 @@
                     </div>
                     <% } %>
                         </div>
+        </section>
+        <section class="bg-info p-4">
+            <h3 class="text-center p-4"> Popular Communities </h3>
+            <div class="btn-group d-flex justify-content-center" role="group" aria-label="Basic example">
+                <a href=#><button type="button" class="btn btn-secondary">Left</button></a>
+                <a href=#><button type="button" class="btn btn-secondary">Left</button></a>
+                <a href=#><button type="button" class="btn btn-secondary">Left</button></a>
+                <a href=#><button type="button" class="btn btn-secondary">Left</button></a>
+                <a href=#><button type="button" class="btn btn-secondary">Left</button></a>
+                <a href=#><button type="button" class="btn btn-secondary">Left</button></a>
+                <a href=#><button type="button" class="btn btn-secondary">Left</button></a>
+                <a href=#><button type="button" class="btn btn-secondary">Left</button></a>
+            </div>
         </section>
 </body>
 

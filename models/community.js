@@ -16,6 +16,7 @@ const communitySchema = new Schema({
     ],
 
     fund: Number,
+    count: Number,
 
     donations: [
         {
