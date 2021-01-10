@@ -13,6 +13,7 @@ import {
   DropdownItem,
   NavbarText,
 } from "reactstrap";
+import "../styles/NavBar.scss";
 
 function NavBar({ props }) {
   return (
