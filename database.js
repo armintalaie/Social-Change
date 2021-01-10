@@ -15,20 +15,24 @@ const mvmnt_donation_pts = 4
 const cmnty_donation_pts = 10
 
 async function getUser(client, id) {
-
     let db = client.db(dbName);
     let user_col = db.collection("users");
     let don_col = db.collection("donations");
+    let move_col = db.collection("movement");
 
-    let user = await user_col.findOne({ "_id": id });
+    let user = await users_col.findOne({ "_id": id });
     if (user) {
         return user;
     }
 
     let don = await don_col.findOne({ "_id": id });
     if (don) {
-        let user_id = don.user;
-        return await user_col.findOne({ _id: user_id });
+        return await user_col.find({ _id: don.user});
+    }
+
+    let move = await move_col.findOne({ "_id": id });
+    if (move) {
+        return await user_col.find({ _id: move.created_by});
     }
 
     return null;
@@ -38,6 +42,25 @@ async function getMovement(client, id) {
     let db = client.db(dbName);
     let col = db.collection("movements");
     return await col.findOne({ "_id": id });
+}
+
+async function getMovements(client, id) {
+    let db = client.db(dbName);
+    let comm_col = db.collection("communities");
+    let move_col = db.collection("movements");
+    let user_col = db.collection("users");
+
+    let comm = await comm_col.findOne({ "_id": id });
+    if (comm) {
+        return await move_col.find({ _id: { $in: comm.movements } }).toArray();
+    }
+
+    let user = await user_col.findOne({"_id": id});
+    if (user) {
+        return await move_col.find({ _id: { $in: user.movements } }).toArray();
+    }
+
+    return null;
 }
 
 async function getAllMovements(client) {
@@ -239,6 +262,20 @@ module.exports.getMovement = async function (id) {
         await client.connect();
         const db = client.db(dbName);
         return await getMovement(client,id);
+    } catch (e) {
+        console.error(e);
+    } finally {
+        await client.close();
+    }
+};
+
+module.exports.getMovements = async function (id) {
+    const uri = fs.readFileSync('uri.txt', 'utf8');
+    const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true });
+    try {
+        await client.connect();
+        const db = client.db(dbName);
+        return await getMovements(client,id);
     } catch (e) {
         console.error(e);
     } finally {
