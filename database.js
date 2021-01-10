@@ -300,6 +300,10 @@ async function createMovement(client, user_id, movement) {
         movement.created_by = user._id;
         movement.votes.push(user._id);
         movement.count = 1;
+        user.movements.push(movement._id);
+        user_col.updateOne({ _id: user._id }, {
+            $set: { "movements": user.movements},
+        });
         return move_col.insertOne(movement);
     }
     return null;
