@@ -1,11 +1,20 @@
 import React from "react";
 // import NavBar from "./NavBar";
-import MomentumCard from "./MomentumCard";
+import movementCard from "./movementCard";
 import { Button, Form, FormGroup, Input, ListGroup } from "reactstrap";
 import { FaTag } from "react-icons/fa";
 import "../styles/CommunityPage.scss";
 
-function CommunityPage({ momentum }) {
+// const movement1 = {
+//   name: "Jane Doe",
+//   community: "Medical",
+//   description:
+//     "Spectator enjoyment is more than the game--it is an immerse experience. Let’s strive for a fun fan experience without accessibility barrier in these venues!",
+//   votes: [{ id: {} }],
+// };
+// const movements = [movement1, movement1];
+
+function CommunityPage({ movements }) {
   return (
     <div className="community__wrapper">
       <div className="community__header">
@@ -32,15 +41,15 @@ function CommunityPage({ momentum }) {
               type="search-bar"
               name="community__search-bar"
               id="community__search-bar"
-              placeholder="Search Momentum"
+              placeholder="Search movement"
             />
           </FormGroup>
         </Form>
       </div>
       <div className="community__content">
         {/* <ListGroup>
-          {momentums.map(momentum => (
-            <MomentumCard key={momentum.id} momentum={momentum} />
+          {movements.map(movement => (
+            <movementCard key={movement.id} movement={movement} />
           ))}
         </ListGroup> */}
       </div>
