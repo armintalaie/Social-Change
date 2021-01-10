@@ -2,7 +2,92 @@ const MongoClient = require('mongodb').MongoClient;
 const mongoose = require("mongoose");
 const User = require("./models/user.js");
 const Movement = require("./models/movement.js");
+const Donation = require("./models/donation.js");
+const Community = require("./models/community.js");
 const dbName = "nwHacks";
+
+async function getUser(client,id){
+    let db = client.db(dbName);
+    let col = db.collection("users");
+    return await col.findOne({"_id": id});
+}
+
+async function getMovement(client,id){
+    let db = client.db(dbName);
+    let col = db.collection("movements");
+    return await col.findOne({"_id": id});
+}
+
+async function getCommunity(client,id){
+    let db = client.db(dbName);
+    let col = db.collection("communities");
+    return await col.findOne({"_id": id});
+}
+
+async function getDonation(client,id){
+    let db = client.db(dbName);
+    let col = db.collection("donations");
+    return await col.findOne({"_id": id});
+}
+
+//Get Donations from either a community or user id
+async function getDonations(client,id){
+    let db = client.db(dbName);
+    let users_col = db.collection("users");
+    let comm_col = db.collection("communities");
+    let don_col = db.collection("donations");
+
+    let user = await users_col.findOne({"_id": id});
+    if (user){
+        let donation_ids = user.donations;
+        return await don_col.find({ _id: { $in: donation_ids }}).toArray();
+    } 
+
+    let comm = await comm_col.findOne({"_id": id});
+    if (comm){
+        let donation_ids = comm.donations;
+        return await don_col.find({ _id: { $in: donation_ids }}).toArray();
+    }
+
+    return null;
+}
+
+//Get community from donation or movement id
+async function getCommunity(client,id){
+    let db = client.db(dbName);
+    let move_col = db.collection("movements");
+    let comm_col = db.collection("communities");
+    let don_col = db.collection("donations");
+
+    let move = await move_col.findOne({"_id": id});
+    if (move){
+        let community_id = user.community;
+        return await comm_col.findOne({ _id: community_id});
+    } 
+
+    let don = await don_col.findOne({"_id": id});
+    if (don){
+        let community_id = don.community;
+        return await comm_col.findOne({ _id: community_id});
+    }
+
+    return null;
+}
+
+//Get community from donation or movement id
+async function getUser(client,id){
+    let db = client.db(dbName);
+    let user_col = db.collection("users");
+    let don_col = db.collection("donations");
+
+    let don = await don_col.findOne({"_id": id});
+    if (don){
+        let user_id = don.user;
+        return await user_col.findOne({ _id: user_id});
+    }
+
+    return null;
+}
 
 async function calculateVotes(client, movement_id){
 
