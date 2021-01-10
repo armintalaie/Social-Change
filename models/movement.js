@@ -3,7 +3,10 @@ const Schema = mongoose.Schema;
 
 const movementSchema = new Schema({
     name: String,
-    community: mongoose.Types.ObjectId,
+    community: {
+        type: mongoose.Types.ObjectId,
+        ref: "communites"
+    },
     photo: String,
     description: String,
 

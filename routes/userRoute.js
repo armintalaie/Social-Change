@@ -77,6 +77,8 @@ router.post('/signup', (req, res) => {
 
 // Create new user if information is sufficient
 router.get('/signup', (req, res) => {
+    if (!req.user)
+        console.log('not signed in')
     res.render('signup')
 })
 
