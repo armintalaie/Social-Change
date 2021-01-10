@@ -71,6 +71,7 @@ router.get('/vote/:movementid/:userid', async(req, res) => {
     let movement_id = mongoose.Types.ObjectId(req.params.movementid);
 
     await db.voteFunk(movement_id, user_id);
+    await db.calculateVotes(movement_id);
 })
 
 module.exports = router;

@@ -123,6 +123,20 @@ async function getAllMovements(client) {
     return await col.find().toArray();
 }
 
+async function getVotes(client, user_id) {
+    let db = client.db(dbName);
+    let comm_col = db.collection("communities");
+    let move_col = db.collection("movements");
+    let user_col = db.collection("users");
+
+    let user = await user_col.findOne({ "_id": user_id });
+    if (user) {
+        return await move_col.find({ _id: { $in: user.votes } }).toArray();
+    }
+
+    return null;
+}
+
 async function getCommunity(client, id) {
     let db = client.db(dbName);
     let move_col = db.collection("movements");
@@ -192,7 +206,7 @@ async function voteFunk(client, movement_id, user_id) {
 
     let user = await user_col.findOne({ "_id": user_id })
 
-    let user_movements = await getMovements(client, user._id);
+    let user_movements = await getVotes(client, user._id);
     let movement_ids = []
     for (user_movement of user_movements) {
         movement_ids.push(user_movement._id);
@@ -309,19 +323,18 @@ async function createMovement(client, user_id, comm_id, movement) {
     var comm = await comm_col.findOne({ "_id": comm_id })
     if (user && comm) {
         movement.created_by = user._id;
-        movement.votes.push(user._id);
-        movement.count = 1;
+        //movement.votes.push(user._id);
+        movement.count = 0;
         movement.community = comm_id;
-        let move_id = move_col.insertOne(movement);
-        user.movements.push(move_id);
+        user.movements.push(movement._id);
         user_col.updateOne({ _id: user._id }, {
             $set: { "movements": user.movements },
         });
-        comm.movements.push(move_id);
+        comm.movements.push(movement._id);
         comm_col.updateOne({ _id: comm._id }, {
             $set: { "movements": comm.movements },
         });
-        return move_id;
+        return move_col.insertOne(movement);
     }
     return null;
 }
