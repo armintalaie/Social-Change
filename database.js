@@ -171,9 +171,9 @@ async function getDonations(client, id) {
 
 async function vote(client, movement_id, user_id) {
     let db = client.db(dbName)
-    var user_col = db.col('users')
-    var move_col = db.col('movements')
-    var comm_col = db.col("communities");
+    var user_col = db.collection('users')
+    var move_col = db.collection('movements')
+    var comm_col = db.collection("communities");
 
     var user = await user_col.findOne({ "_id": user_id })
     
@@ -220,9 +220,9 @@ async function vote(client, movement_id, user_id) {
 
 async function passMovements(client,community_id) {
     let db = client.db(dbName);
-    let user_col = db.col("users");
-    let move_col = db.col("movements");
-    let comm_col = db.col("communities");
+    let user_col = db.collection("users");
+    let move_col = db.collection("movements");
+    let comm_col = db.collection("communities");
 
     let comm = await comm_col.findOne({ "_id": community_id });
     let top = new Array(num_top_mvments)
@@ -278,7 +278,7 @@ async function passMovements(client,community_id) {
 
 async function trust(client, truster_id, trustee_id) {
     let db = client.db(dbName)
-    var user_col = db.col('users')
+    var user_col = db.collection('users')
     var truster = await user_col.findOne({ "_id": truster_id })
     var trustee = await user_col.findOne({ "_id": trustee_id })
     
@@ -304,8 +304,8 @@ async function trust(client, truster_id, trustee_id) {
 
 async function createMovement(client, user_id, movement){
     let db = client.db(dbName)
-    var user_col = db.col('users')
-    var move_col = db.col('movements')
+    var user_col = db.collection('users')
+    var move_col = db.collection('movements')
 
     var user = await user_col.findOne({ "_id": user_id })
 
@@ -320,9 +320,9 @@ async function createMovement(client, user_id, movement){
 
 async function createDonation(client, user_id, community_id, donation){
     let db = client.db(dbName)
-    var user_col = db.col('users')
-    var comm_col = db.col('communities')
-    var don_col = db.col('donations')
+    var user_col = db.collection('users')
+    var comm_col = db.collection('communities')
+    var don_col = db.collection('donations')
 
     var user = await user_col.findOne({ "_id": user_id })
     var comm = await comm_col.findOne({ "_id": community_id })
@@ -352,13 +352,13 @@ async function createDonation(client, user_id, community_id, donation){
 
 async function createUser(client, user){
     let db = client.db(dbName)
-    var user_col = db.col('users')
+    var user_col = db.collection('users')
     return user_col.insertOne(user);
 }
 
 async function createCommunity(client, community){
     let db = client.db(dbName)
-    var comm_col = db.col('communities')
+    var comm_col = db.collection('communities')
     community.balance = 0;
     return comm_col.insertOne(community);
 }
@@ -367,7 +367,7 @@ async function createCommunity(client, community){
 function topAmbassadors(client) {
 
     let db = client.db(dbName)
-    var user_col = db.col('users')
+    var user_col = db.collection('users')
     var top = new Array(num_top_amsdrs)
     user_col.find().sort({ votes: -1 })
         .limit(num_top_amsdrs),
@@ -384,7 +384,7 @@ function topAmbassadors(client) {
 function topMovements(client) {
 
     let db = client.db(dbName)
-    var movement_col = db.col('movements')
+    var movement_col = db.collection('movements')
     var top = new Array(num_top_mvments)
     movement_col.find().sort({ votes: -1 })
         .limit(num_top_mvments),
