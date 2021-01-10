@@ -11,8 +11,8 @@ const Community = require('../models/community')
 const db = require("../database.js");
 
 app.get('/vote/:movementid/:userid', async (req, res) => {
-    let user_id = req.param.movementid;
-    let movement_id = req.param.userid;
+    let user_id = mongoose.Types.ObjectId(req.params.movementid);
+    let movement_id = mongoose.Types.ObjectId(req.params.userid);
 
     await db.vote(movement_id,user_id);
     res.render('lp')

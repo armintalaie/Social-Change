@@ -1,5 +1,6 @@
 const express = require('express')
 const router = express.Router()
+const mongoose = require('mongoose')
 const User = require('../models/user')
 const passport = require('passport')
 const session = require('express-session');
@@ -114,7 +115,19 @@ router.get('/profile', async(req, res) => {
 
     res.locals.movements = await db.getMovements(req.user._id)
 
-    console.log(res.locals.movements)
+    //console.log(res.locals.movements)
+    res.locals.user = req.user
+
+    res.render('profile')
+
+
+})
+
+router.get('/profile/:id', async(req, res) => {
+    let user = await db.getUser(mongoose.Types.ObjectId(req.params.id));
+    res.locals.movements = await db.getMovements(user._id);
+
+    //console.log(res.locals.movements)
     res.locals.user = req.user
 
     res.render('profile')
