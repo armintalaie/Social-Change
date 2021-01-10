@@ -89,6 +89,22 @@ async function getUser(client,id){
     return null;
 }
 
+//Search for communities using text index
+async function searchCommunities(client,query){
+    let db = client.db(dbName);
+    let col = db.collection("communities");
+    col.createIndex({"name":"text", "description":"text"});
+    return await col.find( { $text: { $search: query } } ).toArray();
+}
+
+//Search for movements using text index
+async function searchMovements(client,query){
+    let db = client.db(dbName);
+    let col = db.collection("movements");
+    col.createIndex({"name":"text", "description":"text"});
+    return await col.find( { $text: { $search: query } } ).toArray();
+}
+
 async function calculateVotes(client, movement_id){
 
     let db = client.db(dbName);
@@ -151,14 +167,12 @@ async function main(){
         const users_col = db.collection("users");
         const movements_col = db.collection("movements");
 
-
-        const test_doc = await movements_col.findOne();
-
-        const movement_id = test_doc._id;
+        let mvmts = await searchMovements(client,"test description")
+        for (m of mvmts){
+            console.log(m.name);
+            console.log(m.description);
+        }
         
-        let num_votes = await calculateVotes(client,movement_id);
-
-        console.log(num_votes);
 
     } catch (e) {
         console.error(e);
