@@ -128,7 +128,7 @@ router.get('/profile/:id', async(req, res) => {
     res.locals.movements = await db.getMovements(user._id);
 
     //console.log(res.locals.movements)
-    res.locals.user = req.user
+    res.locals.user = user
 
     res.render('profile')
 
