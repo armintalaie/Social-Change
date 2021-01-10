@@ -1,6 +1,6 @@
 import React from "react";
 // import NavBar from "./NavBar";
-import movementCard from "./movementCard";
+// import movementCard from "./movementCard";
 import { Button, Form, FormGroup, Input, ListGroup } from "reactstrap";
 import { FaTag } from "react-icons/fa";
 import "../styles/CommunityPage.scss";
