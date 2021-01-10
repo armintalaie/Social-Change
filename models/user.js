@@ -34,7 +34,8 @@ const userSchema = new Schema({
             type: mongoose.Types.ObjectId,
             ref: "movements"
         }
-    }]
+    }],
+    balance: Number
 
 })
 
