@@ -25,7 +25,7 @@ function CommunityPage() {
             </Button>
           </div>
         </div>
-        <Form>
+        <Form className="community__header--search">
           <FormGroup>
             <Input
               type="search-bar"
