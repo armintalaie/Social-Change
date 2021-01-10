@@ -90,9 +90,12 @@ router.get('/signin', (req, res) => {
 
 
 // sign out user and remove session
-router.get('/user/signout', (req, res) => {
-    req.logout();
-    res.redirect('signin');
+router.get('signout', (req, res) => {
+    router.get('/user/signout', (req, res) => {
+        userAuth
+        req.logout();
+        res.redirect('signin');
+    })
 })
 
 
