@@ -307,22 +307,21 @@ async function createMovement(client, user_id, comm_id, movement) {
 
     var user = await user_col.findOne({ "_id": user_id })
     var comm = await comm_col.findOne({ "_id": comm_id })
-    console.log('swjnlkjnwfjmjnjnjnjnjnjnjnjnjnjnjnjnjnkljnlk')
     if (user && comm) {
-        console.log('swjnlkjnwfkljnlk')
         movement.created_by = user._id;
         movement.votes.push(user._id);
         movement.count = 1;
         movement.community = comm_id;
-        user.movements.push(movement._id);
+        let move_id = move_col.insertOne(movement);
+        user.movements.push(move_id);
         user_col.updateOne({ _id: user._id }, {
             $set: { "movements": user.movements },
         });
-        comm.movements.push(movement._id);
+        comm.movements.push(move_id);
         comm_col.updateOne({ _id: comm._id }, {
             $set: { "movements": comm.movements },
         });
-        return move_col.insertOne(movement);
+        return move_id;
     }
     return null;
 }
