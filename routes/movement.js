@@ -52,7 +52,7 @@ router.post("/create", upload.single('image'), async(req, res) => {
 
     mv.community = mongoose.Types.ObjectId(community);
 
-    console.log(mv)
+    //console.log(mv)
     await db.createMovement(req.user._id, mv.community, mv)
 
     res.redirect('/')
@@ -62,7 +62,7 @@ router.get("/create", async(req, res) => {
     if (!req.user) res.redirect("/signin");
 
     res.locals.communities = await db.getAllCommunities();
-    console.log(res.locals.communities);
+    //console.log(res.locals.communities);
     res.render("createMovement");
 });
 
