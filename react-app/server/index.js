@@ -1,16 +1,43 @@
-const path = require("path");
 const express = require("express");
-const app = express(); // create express app
+const path = require("path");
+const fs = require('fs')
+const mongoose = require('mongoose')
+const MongoClient = require('mongodb').MongoClient;
+const db = require('./db')
 
-// add middlewares
-app.use(express.static(path.join(__dirname, "..", "build")));
-app.use(express.static("public"));
+const movements = require('./routes/movement')
 
-app.use((req, res, next) => {
-  res.sendFile(path.join(__dirname, "..", "build", "index.html"));
-});
+//const userRoute = require('./routes/userRoute')
 
-// start express server on port 5000
-app.listen(5000, () => {
-  console.log("server started on port 5000");
-});
+const app = express();
+
+// Serve static files from the React app
+app.use(express.static(path.join(__dirname, "client/build")));
+
+
+
+
+app.set('views', __dirname + '/public/views')
+app.set('view engine', 'ejs')
+
+
+
+
+
+app.get('/', (req, res) => {
+
+
+    res.render('index')
+
+
+})
+
+
+const port = process.env.PORT || 5000;
+app.listen(port);
+
+
+app.use(movements)
+
+
+console.log(`Password generator listening on ${port}`);
