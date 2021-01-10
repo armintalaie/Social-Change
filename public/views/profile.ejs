@@ -18,6 +18,10 @@
                     <th scope="col">Name</th>
                     <th scope="col">Points</th>
                     <th scope="col">Email</th>
+                    <% if (trusts) { %>
+                    <th scope="col">Trusts</th>
+                    <% } %>
+                    <th scope="col">Trusted By</th>
                 </tr>
             </thead>
             <tbody>
@@ -30,6 +34,14 @@
                     </td>
                     <td>
                         <%= user.email %>
+                    </td>
+                    <% if (trusts) { %>
+                    <td>
+                        <li><a href="/profile/<%= trusts._id.toString() %>"><%= trusts.name %> </a> </li>
+                    </td>
+                    <% } %>
+                    <td>
+                        <%= trusted_by.length %>
                     </td>
                 </tr>
             </tbody>
@@ -60,7 +72,7 @@
                 </div>
                 <% } else { %>
                     <div class="container">
-                        <h1> movement is not loaded</h1>
+                        <h1> No Movements</h1>
                     </div>
                     <% } %>
                         </div>
