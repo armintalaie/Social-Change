@@ -22,10 +22,16 @@ const communitySchema = new Schema({
         {
             id: {
                 type: mongoose.Types.ObjectId,
-                ref: "donations",
-            },
-        },
+                ref: "donations"
+            }
+        }
     ],
+
+    balance: Number,
+
+    votes: Number,
+    lifetime_votes: Number
+
 });
 
 const Community = mongoose.model("community", communitySchema);

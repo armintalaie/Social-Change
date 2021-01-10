@@ -5,7 +5,7 @@ const userSchema = new Schema({
     name: String,
     email: String,
     password: String,
-    trusts: String,
+    trusts: mongoose.Types.ObjectId,
     trusted_by: [{
         id: {
             type: mongoose.Types.ObjectId,
@@ -35,8 +35,7 @@ const userSchema = new Schema({
             ref: "movements"
         }
     }],
-    balance: Number
-
+    balance : Number
 })
 
 const User = mongoose.model('user', userSchema)
