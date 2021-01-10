@@ -2,7 +2,7 @@ const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
 const communitySchema = new Schema({
-    community: String,
+    name: String,
     photo: String,
     description: String,
 
@@ -10,7 +10,7 @@ const communitySchema = new Schema({
         {
             id: {
                 type: mongoose.Types.ObjectId,
-                ref: "users"
+                ref: "movements"
             }
         }
     ],

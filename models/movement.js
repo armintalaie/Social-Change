@@ -2,7 +2,8 @@ const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
 const movementSchema = new Schema({
-    community: String,
+    name: String,
+    community: mongoose.Types.ObjectId,
     photo: String,
     description: String,
 
