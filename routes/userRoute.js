@@ -112,7 +112,10 @@ router.get('/profile', async(req, res) => {
     if (!req.user)
         res.render('signin')
 
-    res.locals.movements = await db.getUserMovements(req.user._id)
+    res.locals.movements = await db.getMovements(req.user._id)
+
+    console.log(res.locals.movements)
+    res.locals.user = req.user
 
     res.render('profile')
 
