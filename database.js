@@ -40,6 +40,12 @@ async function getMovement(client, id) {
     return await col.findOne({ "_id": id });
 }
 
+async function getAllMovements(client) {
+    let db = client.db(dbName);
+    let col = db.collection("movements");
+    return await col.find().toArray();
+}
+
 async function getCommunity(client, id) {
     let db = client.db(dbName);
     let move_col = db.collection("movements");
@@ -233,6 +239,20 @@ module.exports.getMovement = async function (id) {
         await client.connect();
         const db = client.db(dbName);
         return await getMovement(client,id);
+    } catch (e) {
+        console.error(e);
+    } finally {
+        await client.close();
+    }
+};
+
+module.exports.getAllMovements = async function () {
+    const uri = fs.readFileSync('uri.txt', 'utf8');
+    const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true });
+    try {
+        await client.connect();
+        const db = client.db(dbName);
+        return await getAllMovements(client);
     } catch (e) {
         console.error(e);
     } finally {

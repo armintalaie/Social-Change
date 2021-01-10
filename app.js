@@ -38,6 +38,8 @@ app.get('/', (req, res) => {
 
 app.get('/home', (req, res) => {
 
+
+    app.locals.movements = db.getAllMovements();
     res.render('lp')
 
 
