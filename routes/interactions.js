@@ -11,7 +11,6 @@ var MongoClient = require('mongodb').MongoClient
 
 const mongoose = require('mongoose');
 
-const uri = "mongodb+srv://username:password@cluster0.rbltt.mongodb.net/nwHacks?retryWrites=true&w=majority"; //authentication here
 const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true });
 var db
 
