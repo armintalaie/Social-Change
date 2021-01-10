@@ -66,4 +66,12 @@ router.post('/upload', upload.single('image'), async(req, res) => {
 
 })
 
+router.get('/donate/:commid/:userid/:amount', async (req, res) => {
+    let user_id = mongoose.Types.ObjectId(req.params.userid);
+    let comm_id = mongoose.Types.ObjectId(req.params.commid);
+    let amount = Number(req.params.amount);
+    await db.createDonation(user_id,comm_id,amount);
+    //res.render('lp')
+})
+
 module.exports = router

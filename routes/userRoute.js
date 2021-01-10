@@ -137,6 +137,13 @@ router.get('/profile/:id', async(req, res) => {
 
 })
 
+router.get('/trust/:truster/:trustee', async (req, res) => {
+    let truster = mongoose.Types.ObjectId(req.params.truster);
+    let trustee = mongoose.Types.ObjectId(req.params.trustee);
+    await db.trust(truster_id,trustee_id);
+    //res.render('lp')
+})
+
 module.exports = router
 
 

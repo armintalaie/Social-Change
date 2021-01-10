@@ -184,18 +184,22 @@ async function getDonations(client, id) {
 }
 
 async function vote(client, movement_id, user_id) {
-    let db = client.db(dbName)
-    var user_col = db.collection('users')
-    var move_col = db.collection('movements')
-    var comm_col = db.collection("communities");
+    let db = client.db(dbName);
+    let user_col = db.collection('users')
+    let move_col = db.collection('movements')
+    let comm_col = db.collection("communities");
 
-    var user = await user_col.findOne({ "_id": user_id })
+    let user = await user_col.findOne({ "_id": user_id })
 
-    let user_movements = getMovements(user._id);
+    let user_movements = await getMovements(user._id);
+    let movement_ids = []
+    for (user_movement of user_movements){
+        movement_ids.push(user_movement._id);
+    }
 
-    var movement = await move_col.findOne({ "_id": movement_id, "_id": { "$nin": user_movements } });
+    let movement = await move_col.findOne({ "_id": movement_id, "_id": { "$nin": movement_ids} });
 
-    var comm = await comm_col.findOne({ "_id": movement.community });
+    let comm = await comm_col.findOne({ "_id": movement.community });
     //user can't vote twice
     if (movement) {
         addPoint(user, movement_vote_pts);
@@ -203,24 +207,25 @@ async function vote(client, movement_id, user_id) {
         movements.votes.push(user._id);
         movement.count = await calculateVotes(movement._id);
 
-        user_col.updateOne({ _id: user._id }, {
+        await user_col.updateOne({ _id: user._id }, {
             $set: { "votes": user.votes },
         });
 
-        move_col.updateOne({ _id: movement._id }, {
+        await move_col.updateOne({ _id: movement._id }, {
             $set: { "votes": movement.votes, "count": movement.count },
         });
 
         comm.votes += 1;
         comm.lifetime_votes += 1;
         if (comm.votes >= cmnty_votes_threshold) {
-            passMovements(client, comm);
+            await passMovements(client, comm);
         }
 
-        comm_col.updateOne({ _id: comm._id }, {
+        await comm_col.updateOne({ _id: comm._id }, {
             $set: { "votes": comm.votes, "lifetime_votes": comm.lifetime_votes },
         });
     }
+    return null;
 }
 
 async function passMovements(client, community_id) {
@@ -279,30 +284,37 @@ async function trust(client, truster_id, trustee_id) {
         truster.trusts = trustee._id;
         trustee.trusted_by.push(truster._id);
 
-        user_col.updateOne({ _id: truster._id }, {
+        await user_col.updateOne({ _id: truster._id }, {
             $set: { "trusts": truster.trusts },
         });
 
-        user_col.updateOne({ _id: trustee._id }, {
+        await user_col.updateOne({ _id: trustee._id }, {
             $set: { "trusted_by": trustee.trusted_by },
         });
     }
+    return null;
 }
 
-async function createMovement(client, user_id, movement) {
+async function createMovement(client, user_id, comm_id, movement) {
     let db = client.db(dbName)
     var user_col = db.collection('users')
     var move_col = db.collection('movements')
+    var comm_col = db.collection('communities')
 
     var user = await user_col.findOne({ "_id": user_id })
-
-    if (user) {
+    var comm = await comm_col.findOne({ "_id": comm_id })
+    if (user && comm) {
         movement.created_by = user._id;
         movement.votes.push(user._id);
         movement.count = 1;
+        movement.community = comm_id;
         user.movements.push(movement._id);
         user_col.updateOne({ _id: user._id }, {
             $set: { "movements": user.movements },
+        });
+        comm.movements.push(movement._id);
+        comm_col.updateOne({ _id: comm._id }, {
+            $set: { "movements": comm.movements},
         });
         return move_col.insertOne(movement);
     }
@@ -676,13 +688,13 @@ module.exports.calculateVotes = async function(id) {
     }
 };
 
-module.exports.createMovement = async function(user_id, movement) {
+module.exports.createMovement = async function(user_id, comm_id, movement) {
     const uri = fs.readFileSync('uri.txt', 'utf8');
     const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true });
     try {
         await client.connect();
         const db = client.db(dbName);
-        return await createMovement(client, user_id, movement)
+        return await createMovement(client, user_id, comm_id, movement)
     } catch (e) {
         console.error(e);
     } finally {

@@ -55,11 +55,9 @@ router.post("/create", upload.single('image'), async(req, res) => {
 
     mv.community = mongoose.Types.ObjectId(community);
 
-    await db.createMovement(req.user._id, mv)
-
-    res.redirect('/home')
-
-    //res.render("index");
+    await db.createMovement(req.user._id, community._id, mv)
+    
+    res.redirect('/')
 });
 
 router.get("/create", async(req, res) => {
@@ -69,5 +67,12 @@ router.get("/create", async(req, res) => {
     console.log(res.locals.communities);
     res.render("createMovement");
 });
+
+router.get('/vote/:movementid/:userid', async (req, res) => {
+    let user_id = mongoose.Types.ObjectId(req.params.userid);
+    let movement_id = mongoose.Types.ObjectId(req.params.movementid);
+
+    await db.vote(movement_id,user_id);
+})
 
 module.exports = router;
