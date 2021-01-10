@@ -8,8 +8,6 @@ const bcrypt = require('bcrypt');
 
 
 
-
-
 /**  sign up user with information posted
  *   hash password of user
  *   save user info on mongodb server
@@ -85,7 +83,7 @@ router.get('/signup', (req, res) => {
 
 // User singin authentication
 router.post('/signin', passport.authenticate('local', {
-    successRedirect: '/signup',
+    successRedirect: '/home',
     failureRedirect: '/signup',
 }))
 

@@ -31,7 +31,16 @@ app.use(bodyParser.urlencoded({ extended: true }))
 app.get('/', (req, res) => {
 
 
-    res.render('index')
+    res.redirect('/home')
+
+
+
+})
+
+app.get('/home', (req, res) => {
+
+    res.render('lp')
+
 
 
 })
