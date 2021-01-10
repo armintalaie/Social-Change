@@ -1,20 +1,24 @@
 import React from "react";
 // import NavBar from "./NavBar";
-// import movementCard from "./movementCard";
+import MovementCard from "./MovementCard";
 import { Button, Form, FormGroup, Input, ListGroup } from "reactstrap";
 import { FaTag } from "react-icons/fa";
 import "../styles/CommunityPage.scss";
 
-// const movement1 = {
-//   name: "Jane Doe",
-//   community: "Medical",
-//   description:
-//     "Spectator enjoyment is more than the game--it is an immerse experience. Let’s strive for a fun fan experience without accessibility barrier in these venues!",
-//   votes: [{ id: {} }],
-// };
-// const movements = [movement1, movement1];
+const movement1 = {
+  name:
+    "Enhancing sports ground accessibility in sports events in West Vancouver",
+  community: "Medical",
+  description:
+    "Spectator enjoyment is more than the game--it is an immerse experience. Let’s strive for a fun fan experience without accessibility barrier in these venues!",
+  votes: 9,
+  goal: 900,
+  donations: 90,
+};
 
-function CommunityPage({ movements }) {
+const movements = [movement1, movement1];
+
+function CommunityPage() {
   return (
     <div className="community__wrapper">
       <div className="community__header">
@@ -47,11 +51,14 @@ function CommunityPage({ movements }) {
         </Form>
       </div>
       <div className="community__content">
-        {/* <ListGroup>
+        <ListGroup
+          className="community__content__cards"
+          style={{ flexDirection: "row" }}
+        >
           {movements.map(movement => (
-            <movementCard key={movement.id} movement={movement} />
+            <MovementCard movement={movement} />
           ))}
-        </ListGroup> */}
+        </ListGroup>
       </div>
     </div>
   );

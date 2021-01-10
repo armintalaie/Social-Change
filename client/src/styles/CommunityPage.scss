@@ -1,7 +1,7 @@
 .community {
   &__wrapper {
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
     width: 100%;
     padding: 40px;
   }
@@ -14,5 +14,12 @@
     }
     // &--search {
     // }
+  }
+  &__content {
+    &--cards {
+      &.list-group {
+        flex-direction: row;
+      }
+    }
   }
 }
