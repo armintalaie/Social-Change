@@ -28,12 +28,12 @@ async function getUser(client, id) {
 
     let don = await don_col.findOne({ "_id": id });
     if (don) {
-        return await user_col.find({ _id: don.user});
+        return await user_col.find({ _id: don.user });
     }
 
     let move = await move_col.findOne({ "_id": id });
     if (move) {
-        return await user_col.find({ _id: move.created_by});
+        return await user_col.find({ _id: move.created_by });
     }
 
     return null;
@@ -68,7 +68,8 @@ async function getMovements(client, id) {
         return await move_col.find({ _id: { $in: comm.movements } }).toArray();
     }
 
-    let user = await user_col.findOne({"_id": id});
+    let user = await user_col.findOne({ "_id": id });
+
     if (user) {
         return await move_col.find({ _id: { $in: user.movements } }).toArray();
     }
@@ -447,13 +448,13 @@ async function calculateVotes(client, movement_id) {
     return num_votes;
 }
 
-module.exports.getUser = async function (id) {
+module.exports.getUser = async function(id) {
     const uri = fs.readFileSync('uri.txt', 'utf8');
     const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true });
     try {
         await client.connect();
         const db = client.db(dbName);
-        return await getUser(client,id);
+        return await getUser(client, id);
     } catch (e) {
         console.error(e);
     } finally {
@@ -461,13 +462,13 @@ module.exports.getUser = async function (id) {
     }
 };
 
-module.exports.getMovement = async function (id) {
+module.exports.getMovement = async function(id) {
     const uri = fs.readFileSync('uri.txt', 'utf8');
     const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true });
     try {
         await client.connect();
         const db = client.db(dbName);
-        return await getMovement(client,id);
+        return await getMovement(client, id);
     } catch (e) {
         console.error(e);
     } finally {
@@ -475,13 +476,13 @@ module.exports.getMovement = async function (id) {
     }
 };
 
-module.exports.getMovements = async function (id) {
+module.exports.getMovements = async function(id) {
     const uri = fs.readFileSync('uri.txt', 'utf8');
     const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true });
     try {
         await client.connect();
         const db = client.db(dbName);
-        return await getMovements(client,id);
+        return await getMovements(client, id);
     } catch (e) {
         console.error(e);
     } finally {
@@ -489,7 +490,7 @@ module.exports.getMovements = async function (id) {
     }
 };
 
-module.exports.getAllMovements = async function () {
+module.exports.getAllMovements = async function() {
     const uri = fs.readFileSync('uri.txt', 'utf8');
     const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true });
     try {
@@ -503,13 +504,13 @@ module.exports.getAllMovements = async function () {
     }
 };
 
-module.exports.getCommunity = async function (id) {
+module.exports.getCommunity = async function(id) {
     const uri = fs.readFileSync('uri.txt', 'utf8');
     const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true });
     try {
         await client.connect();
         const db = client.db(dbName);
-        return await getCommunity(client,id);
+        return await getCommunity(client, id);
     } catch (e) {
         console.error(e);
     } finally {
@@ -537,7 +538,7 @@ module.exports.getDonation = async function (id) {
     try {
         await client.connect();
         const db = client.db(dbName);
-        return await getDonation(client,id);
+        return await getDonation(client, id);
     } catch (e) {
         console.error(e);
     } finally {
@@ -545,13 +546,13 @@ module.exports.getDonation = async function (id) {
     }
 };
 
-module.exports.getDonations = async function (id) {
+module.exports.getDonations = async function(id) {
     const uri = fs.readFileSync('uri.txt', 'utf8');
     const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true });
     try {
         await client.connect();
         const db = client.db(dbName);
-        return await getDonations(client,id);
+        return await getDonations(client, id);
     } catch (e) {
         console.error(e);
     } finally {
@@ -559,13 +560,13 @@ module.exports.getDonations = async function (id) {
     }
 };
 
-module.exports.vote = async function (movement_id,user_id) {
+module.exports.vote = async function(movement_id, user_id) {
     const uri = fs.readFileSync('uri.txt', 'utf8');
     const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true });
     try {
         await client.connect();
         const db = client.db(dbName);
-        return await vote(client,movement_id,user_id);
+        return await vote(client, movement_id, user_id);
     } catch (e) {
         console.error(e);
     } finally {
@@ -573,7 +574,7 @@ module.exports.vote = async function (movement_id,user_id) {
     }
 };
 
-module.exports.topAmbassadors = async function () {
+module.exports.topAmbassadors = async function() {
     const uri = fs.readFileSync('uri.txt', 'utf8');
     const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true });
     try {
@@ -587,7 +588,7 @@ module.exports.topAmbassadors = async function () {
     }
 };
 
-module.exports.topMovements = async function () {
+module.exports.topMovements = async function() {
     const uri = fs.readFileSync('uri.txt', 'utf8');
     const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true });
     try {
@@ -601,13 +602,13 @@ module.exports.topMovements = async function () {
     }
 };
 
-module.exports.searchCommunities = async function (query) {
+module.exports.searchCommunities = async function(query) {
     const uri = fs.readFileSync('uri.txt', 'utf8');
     const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true });
     try {
         await client.connect();
         const db = client.db(dbName);
-        return await searchCommunities(client,query);
+        return await searchCommunities(client, query);
     } catch (e) {
         console.error(e);
     } finally {
@@ -615,13 +616,13 @@ module.exports.searchCommunities = async function (query) {
     }
 };
 
-module.exports.searchMovements = async function (query) {
+module.exports.searchMovements = async function(query) {
     const uri = fs.readFileSync('uri.txt', 'utf8');
     const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true });
     try {
         await client.connect();
         const db = client.db(dbName);
-        return await searchMovements(client,query);
+        return await searchMovements(client, query);
     } catch (e) {
         console.error(e);
     } finally {
@@ -629,13 +630,13 @@ module.exports.searchMovements = async function (query) {
     }
 };
 
-module.exports.calculateVotes = async function (id) {
+module.exports.calculateVotes = async function(id) {
     const uri = fs.readFileSync('uri.txt', 'utf8');
     const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true });
     try {
         await client.connect();
         const db = client.db(dbName);
-        return await calculateVotes(client,id);
+        return await calculateVotes(client, id);
     } catch (e) {
         console.error(e);
     } finally {

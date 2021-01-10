@@ -10,10 +10,13 @@ const communitySchema = new Schema({
         {
             id: {
                 type: mongoose.Types.ObjectId,
-                ref: "movements"
-            }
-        }
+                ref: "movements",
+            },
+        },
     ],
+
+    fund: Number,
+    count: Number,
 
     donations: [
         {
@@ -31,6 +34,6 @@ const communitySchema = new Schema({
 
 });
 
-const Community = mongoose.model('community', communitySchema)
+const Community = mongoose.model("community", communitySchema);
 
 module.exports = Community;

@@ -2,32 +2,38 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <%- include('header.ejs') %>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Document</title>
 </head>
 
 <body>
 
-    <section class="bg-gray200 pt-5 pb-5 mb-10">
+    <%- include('nav.ejs') %>
+        <section class="bg-info pt-5 pb-5 mb-10">
 
-        <div class="container p-6">
-            <form action="/create" method="post" class="bd-search hidden-sm-down small">
-                <input type="text" class="form-control bg-graylight border-0 font-weight-bold" id="name" name="name" placeholder="Name" autocomplete="off">
-                <br>
-                <br>
-                <input type="text" class="form-control bg-graylight border-0 font-weight-bold" id="description" name="description" placeholder="description" autocomplete="off">
-                <br>
-                <input type="number" class="form-control bg-graylight border-0 font-weight-bold" id="goal" name="goal" placeholder="goal" autocomplete="off">
-                <br>
-                <br>
-                <br>
-                <button class="btn-indigo btn" type="submit"> Create </button>
+            <div class="container p-6">
+                <h1 class="text-center p-3">Create a Movement!</h1>
+                <form action="/create" method="post" class="bd-search hidden-sm-down small">
+                    <input type="text" class="form-control bg-graylight border-0 font-weight-bold" id="name" name="name"
+                        placeholder="Name" autocomplete="off">
+                    <br>
+                    <br>
+                    <input type="text" class="form-control bg-graylight border-0 font-weight-bold" id="description"
+                        name="description" placeholder="description" autocomplete="off">
+                    <br>
+                    <input type="number" class="form-control bg-graylight border-0 font-weight-bold" id="goal"
+                        name="goal" placeholder="goal" autocomplete="off">
+                    <br>
+                    <br>
+                    <br>
+                    <button class="btn-indigo btn" type="submit"> Create </button>
 
-            </form>
+                </form>
 
-        </div>
-    </section>
+            </div>
+        </section>
 
 </body>
 

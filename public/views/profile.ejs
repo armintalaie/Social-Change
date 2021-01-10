@@ -12,24 +12,59 @@
 
     <%- include('nav.ejs') %>
 
-        <%= user.name %>
-            <%= user.points %>
-                <%= user.emails %>
+        <table class="table">
+            <thead class="thead-dark">
+                <tr>
+                    <th scope="col">Name</th>
+                    <th scope="col">Points</th>
+                    <th scope="col">Email</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>
+                        <%= user.name %>
+                    </td>
+                    <td>
+                        <%= user.points %>
+                    </td>
+                    <td>
+                        <%= user.email %>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <section>
 
-
-                    <% movements.forEach(mv => { %>
+            <% if (user.movements) { %>
+                <h4> User Movements </h4>
+                <div class="container mb-3" style="max-width: 25rem;">
+                    <% user.movements.forEach(mv=> { %>
+                        <!-- idk if this works actually -->
                         <div>
-                            <div class="card ">
-
-
+                            <div class="card bg-success">
 
                                 <h3 class="card-title">
                                     <%= mv.name %>
                                 </h3>
+                                <p>
+                                    <%= mv.description %>
+                                </p>
+
+
 
 
                             </div>
                         </div>
+                        <% }) %>
+                </div>
+                <% } else { %>
+                    <div class="container">
+                        <h1> movement is not loaded</h1>
+                    </div>
+                    <% } %>
+                        </div>
+        </section>
 
 </body>
 

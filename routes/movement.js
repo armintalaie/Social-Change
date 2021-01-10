@@ -26,8 +26,8 @@ router.post('/create', (req, res) => {
     mv.goal = req.body.goal
 
     mv.votes.push(req.user._id)
-    req.user.votes.push(mv._id)
 
+    db.add_movement(req.user._id, mv._id)
 
     mv.save()
         .then((result) => {
