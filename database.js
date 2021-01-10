@@ -344,6 +344,12 @@ async function createCommunity(client, community) {
     return comm_col.insertOne(community);
 }
 
+async function createPhoto(client, photo) {
+    let db = client.db(dbName);
+    let phot_col = db.collection("photos");
+    return await phot_col.insertOne(photo);
+}
+
 // top people
 function topAmbassadors(client) {
 
@@ -711,6 +717,20 @@ module.exports.createUser = async function(user) {
         await client.connect();
         const db = client.db(dbName);
         return await createUser(client, user)
+    } catch (e) {
+        console.error(e);
+    } finally {
+        await client.close();
+    }
+};
+
+module.exports.createPhoto = async function(photo) {
+    const uri = fs.readFileSync('uri.txt', 'utf8');
+    const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true });
+    try {
+        await client.connect();
+        const db = client.db(dbName);
+        return await createPhoto(client, photo)
     } catch (e) {
         console.error(e);
     } finally {

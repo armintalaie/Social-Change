@@ -23,17 +23,18 @@ storage = multer.diskStorage({
 })
 var upload = multer({ storage: storage })
 
-
-
 // restarts the community by removing the movements in it and distributing the money
-router.get('/community/restart/:id', (req, res) => {
-
+router.get('/community/restart/:id', async (req, res) => {
+    await db.passMovements(req.param.id);
 })
 
 
 // find community by id and get all the movements + the votes it has
-router.get('/community/create', (req, res) => {
-    res.render('community')
+router.get('/community/:id', async (req, res) => {
+    let comm = await db.getCommunity(req.param.id);
+    req.body.movements = await db.getMovements(comm._id);
+    req.body.community = comm;
+    res.render('community');
 })
 
 
@@ -51,43 +52,17 @@ async function createC(client, req) {
     community.photo = photo._id
     db.collection('photos').insertOne(photo)
     db.collection('communities').insertOne(community);
-
-
 }
 
-
-
 router.post('/upload', upload.single('image'), async(req, res) => {
-    if (!req.file) {
-        console.log("No file received");
+    let photo = new Photo();
+    photo.img = {
+        data: fs.readFileSync(path.join(__dirname + '/../uploads/photos/' + req.file.filename)),
+        contentType: 'image/png'
     }
-    const uri = 'mongodb+srv://Kevin:zuNfarbTfeeRDYz8@cluster0.rbltt.mongodb.net/nwHacks?retryWrites=true&w=majority'
-    const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true });
-    try {
-        await client.connect();
-        var photo = new Photo();
-        photo.img = {
-            data: fs.readFileSync(path.join(__dirname + '/../uploads/photos/' + req.file.filename)),
-            contentType: 'image/png'
-        }
-        let db = client.db("nwHacks")
-        await db.collection('photos').insertOne(photo)
-        res.render('lp')
-    } catch (e) {
-        console.error(e);
-    } finally {
-        await client.close();
-    }
+    await createPhoto(photo);
+    res.render('lp');
+
 })
-
-
-
-
-// functions
-// getCommunity(id) return one
-// getCommunityMovements(id) return array
-// restartCommunity(id) 
-// updateCommunity
-
 
 module.exports = router
