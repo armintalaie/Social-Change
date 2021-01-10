@@ -5,6 +5,7 @@ const User = require("./models/user.js");
 const Movement = require("./models/movement.js");
 const Donation = require("./models/donation.js");
 const Community = require("./models/community.js");
+const Photo = require("./models/photo.js");
 const dbName = "nwHacks";
 
 
@@ -34,6 +35,31 @@ async function getUser(client, id) {
     let move = await move_col.findOne({ "_id": id });
     if (move) {
         return await user_col.find({ _id: move.created_by });
+    }
+
+    return null;
+}
+
+async function getPhoto(client, id) {
+    let db = client.db(dbName);
+    let user_col = db.collection("users");
+    let comm_col = db.collection("communities");
+    let move_col = db.collection("movements");
+    let phot_col = db.collection("photos");
+
+    let user = await user_col.findOne({ "_id": id });
+    if (user) {
+        return await phot_col.findOne({ "_id" : user.photo });
+    }
+
+    let comm = await comm_col.findOne({ "_id": id });
+    if (comm) {
+        return await phot_col.findOne({ "_id" : comm.photo });
+    }
+
+    let move = await move_col.findOne({ "_id": id });
+    if (move) {
+        return await phot_col.findOne({ "_id" : move.photo });
     }
 
     return null;
@@ -455,6 +481,20 @@ module.exports.getUser = async function(id) {
         await client.connect();
         const db = client.db(dbName);
         return await getUser(client, id);
+    } catch (e) {
+        console.error(e);
+    } finally {
+        await client.close();
+    }
+};
+
+module.exports.getPhoto = async function(id) {
+    const uri = fs.readFileSync('uri.txt', 'utf8');
+    const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true });
+    try {
+        await client.connect();
+        const db = client.db(dbName);
+        return await getPhoto(client, id);
     } catch (e) {
         console.error(e);
     } finally {
