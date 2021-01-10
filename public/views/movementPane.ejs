@@ -1,9 +1,9 @@
-<div class="card" style="width: 30rem;">
+<div class="card" style="width: 30rem; align-items: center;">
     <% if (movement.image) { %>
         <img src="data:image/<%=movement.image.contentType%>;base64,
                                                             <%=movement.image.data.toString('base64')%>" style="width: 80%; height: auto;">
         <% } %>
-            <div class="card-body">
+            <div class="card-body" style="margin: 3%; align-items: center;">
 
                 <h5 class="card-title">
                     <%= movement.name %>
