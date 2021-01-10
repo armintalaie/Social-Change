@@ -17,7 +17,7 @@ router.post('/create', async (req, res) => {
 
     await db.createMovement(req.user._id, mv)
     
-    res.render('index')
+    res.redirect('/')
 })
 
 
