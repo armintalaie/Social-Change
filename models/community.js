@@ -15,6 +15,14 @@ const communitySchema = new Schema({
         }
     ],
 
+    donations: [
+        {
+            id: {
+                type: mongoose.Types.ObjectId,
+                ref: "donations"
+            }
+        }
+    ]
 
 });
 
