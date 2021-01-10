@@ -200,9 +200,9 @@ async function voteFunk(client, movement_id, user_id) {
 
     let movement = await move_col.findOne({ "_id": movement_id, "_id": { "$nin": movement_ids } });
 
-    let comm = await comm_col.findOne({ "_id": movement.community });
     //user can't vote twice
     if (movement) {
+        
         addPoint(user, movement_vote_pts);
         user.votes.push(movement._id);
         movement.votes.push(user._id);
@@ -216,7 +216,8 @@ async function voteFunk(client, movement_id, user_id) {
             $set: { "votes": movement.votes, "count": movement.count },
         });
 
-        if (comm) {
+        let comm = await comm_col.findOne({ "_id": movement.community });
+        if (comm){
             comm.votes += 1;
             comm.lifetime_votes += 1;
             if (comm.votes >= cmnty_votes_threshold) {
@@ -306,22 +307,21 @@ async function createMovement(client, user_id, comm_id, movement) {
 
     var user = await user_col.findOne({ "_id": user_id })
     var comm = await comm_col.findOne({ "_id": comm_id })
-    console.log('swjnlkjnwfjmjnjnjnjnjnjnjnjnjnjnjnjnjnkljnlk')
     if (user && comm) {
-        console.log('swjnlkjnwfkljnlk')
         movement.created_by = user._id;
         movement.votes.push(user._id);
         movement.count = 1;
         movement.community = comm_id;
-        user.movements.push(movement._id);
+        let move_id = move_col.insertOne(movement);
+        user.movements.push(move_id);
         user_col.updateOne({ _id: user._id }, {
             $set: { "movements": user.movements },
         });
-        comm.movements.push(movement._id);
+        comm.movements.push(move_id);
         comm_col.updateOne({ _id: comm._id }, {
             $set: { "movements": comm.movements },
         });
-        return move_col.insertOne(movement);
+        return move_id;
     }
     return null;
 }
@@ -453,6 +453,9 @@ async function calculateVotes(client, movement_id) {
         let voting_user = await users_col.findOne({ _id: vote.id });
 
         //The nested loop is because the graphLookup restriction should only be applied on the children, not the parent user
+        if (!voting_user){
+            continue;
+        }
         for (truster of voting_user.trusted_by) {
             let downstream_votes = await users_col.aggregate([
                 { $match: { _id: mongoose.Types.ObjectId(vote.id) } },
