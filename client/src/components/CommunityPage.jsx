@@ -13,7 +13,6 @@ const movement1 = {
     "Spectator enjoyment is more than the game--it is an immerse experience. Let’s strive for a fun fan experience without accessibility barrier in these venues!",
   votes: 9,
   goal: 900,
-  donations: 90,
 };
 
 const movements = [movement1, movement1];
