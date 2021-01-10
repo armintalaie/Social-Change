@@ -6,23 +6,21 @@ const communitySchema = new Schema({
     photo: String,
     description: String,
 
-    movements: [
-        {
-            id: {
-                type: mongoose.Types.ObjectId,
-                ref: "movements"
-            }
+    movements: [{
+        id: {
+            type: mongoose.Types.ObjectId,
+            ref: "movements"
         }
-    ],
+    }],
 
-    donations: [
-        {
-            id: {
-                type: mongoose.Types.ObjectId,
-                ref: "donations"
-            }
+    fund: Integer,
+
+    donations: [{
+        id: {
+            type: mongoose.Types.ObjectId,
+            ref: "donations"
         }
-    ]
+    }]
 
 });
 
