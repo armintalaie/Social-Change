@@ -47,11 +47,11 @@
         <section>
 
             <% if (movements) { %>
-                <h1> Popular Movements </h1>
-                <div class="container mb-3 pt-2 pb-2" style="max-width: 25rem;">
+                <h1 class="text-center"> Popular Movements </h1>
+                <div class="container d-flex flex-wrap mb-3 pt-2 pb-2">
                     <% movements.forEach(mv=> { %>
                         <div>
-                            <div class="card bg-warning mt-2 mb-2">
+                            <div class="card bg-warning m-2 p-4">
 
                                 <h3 class="card-title">
                                     <%= mv.name %>
