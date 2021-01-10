@@ -6,24 +6,27 @@ const communitySchema = new Schema({
     photo: String,
     description: String,
 
-    movements: [{
-        id: {
-            type: mongoose.Types.ObjectId,
-            ref: "movements"
-        }
-    }],
+    movements: [
+        {
+            id: {
+                type: mongoose.Types.ObjectId,
+                ref: "movements",
+            },
+        },
+    ],
 
-    fund: Integer,
+    fund: Number,
 
-    donations: [{
-        id: {
-            type: mongoose.Types.ObjectId,
-            ref: "donations"
-        }
-    }]
-
+    donations: [
+        {
+            id: {
+                type: mongoose.Types.ObjectId,
+                ref: "donations",
+            },
+        },
+    ],
 });
 
-const Community = mongoose.model('community', communitySchema)
+const Community = mongoose.model("community", communitySchema);
 
 module.exports = Community;
