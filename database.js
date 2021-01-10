@@ -109,7 +109,7 @@ async function vote(client, movement_id, user_id) {
 }
 
 // top people
-function topAmbassadors() {
+function topAmbassadors(client) {
 
     let db = client.db(dbName)
     var user_col = db.col('users')
@@ -126,7 +126,7 @@ function topAmbassadors() {
 
 
 // top people
-function topMovements() {
+function topMovements(client) {
 
     let db = client.db(dbName)
     var movement_col = db.col('movements')
@@ -212,23 +212,6 @@ async function calculateVotes(client, movement_id) {
     return num_votes;
 }
 
-async function dbWrapper(funk) {
-    const uri = fs.readFileSync('uri.txt', 'utf8');
-    const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true });
-
-    try {
-        await client.connect();
-        const db = client.db(dbName);
-
-        return await funk(client);
-    } catch (e) {
-        console.error(e);
-    } finally {
-        await client.close();
-    }
-}
-//main().catch(console.error);
-
 module.exports.getUser = async function (id) {
     const uri = fs.readFileSync('uri.txt', 'utf8');
     const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true });
@@ -257,4 +240,128 @@ module.exports.getMovement = async function (id) {
     }
 };
 
-//dbWrapper(getUser).catch(console.error);
+module.exports.getCommunity = async function (id) {
+    const uri = fs.readFileSync('uri.txt', 'utf8');
+    const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true });
+    try {
+        await client.connect();
+        const db = client.db(dbName);
+        return await getCommunity(client,id);
+    } catch (e) {
+        console.error(e);
+    } finally {
+        await client.close();
+    }
+};
+
+module.exports.getDonation = async function (id) {
+    const uri = fs.readFileSync('uri.txt', 'utf8');
+    const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true });
+    try {
+        await client.connect();
+        const db = client.db(dbName);
+        return await getDonation(client,id);
+    } catch (e) {
+        console.error(e);
+    } finally {
+        await client.close();
+    }
+};
+
+module.exports.getDonations = async function (id) {
+    const uri = fs.readFileSync('uri.txt', 'utf8');
+    const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true });
+    try {
+        await client.connect();
+        const db = client.db(dbName);
+        return await getDonations(client,id);
+    } catch (e) {
+        console.error(e);
+    } finally {
+        await client.close();
+    }
+};
+
+module.exports.vote = async function (movement_id,user_id) {
+    const uri = fs.readFileSync('uri.txt', 'utf8');
+    const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true });
+    try {
+        await client.connect();
+        const db = client.db(dbName);
+        return await vote(client,movement_id,user_id);
+    } catch (e) {
+        console.error(e);
+    } finally {
+        await client.close();
+    }
+};
+
+module.exports.topAmbassadors = async function () {
+    const uri = fs.readFileSync('uri.txt', 'utf8');
+    const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true });
+    try {
+        await client.connect();
+        const db = client.db(dbName);
+        return await topAmbassadors(client);
+    } catch (e) {
+        console.error(e);
+    } finally {
+        await client.close();
+    }
+};
+
+module.exports.topMovements = async function () {
+    const uri = fs.readFileSync('uri.txt', 'utf8');
+    const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true });
+    try {
+        await client.connect();
+        const db = client.db(dbName);
+        return await topMovements(client);
+    } catch (e) {
+        console.error(e);
+    } finally {
+        await client.close();
+    }
+};
+
+module.exports.searchCommunities = async function (query) {
+    const uri = fs.readFileSync('uri.txt', 'utf8');
+    const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true });
+    try {
+        await client.connect();
+        const db = client.db(dbName);
+        return await searchCommunities(client,query);
+    } catch (e) {
+        console.error(e);
+    } finally {
+        await client.close();
+    }
+};
+
+module.exports.searchMovements = async function (query) {
+    const uri = fs.readFileSync('uri.txt', 'utf8');
+    const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true });
+    try {
+        await client.connect();
+        const db = client.db(dbName);
+        return await searchMovements(client,query);
+    } catch (e) {
+        console.error(e);
+    } finally {
+        await client.close();
+    }
+};
+
+module.exports.calculateVotes = async function (id) {
+    const uri = fs.readFileSync('uri.txt', 'utf8');
+    const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true });
+    try {
+        await client.connect();
+        const db = client.db(dbName);
+        return await calculateVotes(client,id);
+    } catch (e) {
+        console.error(e);
+    } finally {
+        await client.close();
+    }
+};
